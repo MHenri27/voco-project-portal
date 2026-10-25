@@ -6,6 +6,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { MagnifyingGlass } from "@phosphor-icons/react";
 import { ProjectCard } from "@/components/project-card";
+import { FeaturedLead } from "@/components/featured-lead";
 import { cn } from "@/lib/cn";
 import type { Project } from "@/lib/types";
 
@@ -41,6 +42,10 @@ export function CatalogView({ projects }: { projects: Project[] }) {
     return sorted;
   }, [projects, query, category, sort]);
 
+  const showLead = sort === "curated" && category === "All" && query.trim() === "";
+  const lead = showLead ? visible.find((p) => p.featured) ?? null : null;
+  const gridItems = lead ? visible.filter((p) => p.id !== lead.id) : visible;
+
   const filterKey = `${query}|${category}|${sort}`;
 
   useGSAP(
@@ -71,14 +76,19 @@ export function CatalogView({ projects }: { projects: Project[] }) {
 
   return (
     <section className="mx-auto max-w-[1400px] px-5 py-14 md:px-10 md:py-20">
-      <header className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-        <div>
+      <header className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+        <div className="max-w-2xl">
           <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted">Catalog</p>
-          <h1 className="font-display mt-3 text-4xl font-bold tracking-tight text-ink md:text-6xl">
-            Selected work
+          <h1 className="font-display mt-3 text-4xl font-bold leading-[1.02] tracking-tight text-ink md:text-6xl">
+            Everything I have
+            <br />
+            built at <span className="text-accent">VOCO.</span>
           </h1>
+          <p className="mt-5 text-lg leading-relaxed text-ink-soft">
+            Coursework, side projects, and experiments. Filter by discipline or search for something specific.
+          </p>
         </div>
-        <p className="text-sm text-muted">
+        <p className="shrink-0 font-mono text-sm text-muted">
           {visible.length} {visible.length === 1 ? "project" : "projects"}
         </p>
       </header>
@@ -130,10 +140,20 @@ export function CatalogView({ projects }: { projects: Project[] }) {
           </p>
         </div>
       ) : (
-        <div ref={gridRef} className="mt-10 grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
-          {visible.map((project) => (
-            <ProjectCard key={project.id} project={project} />
-          ))}
+        <div ref={gridRef} className="mt-10">
+          {lead && <FeaturedLead project={lead} />}
+          {gridItems.length > 0 && (
+            <div
+              className={cn(
+                "grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3",
+                lead && "mt-12",
+              )}
+            >
+              {gridItems.map((project) => (
+                <ProjectCard key={project.id} project={project} />
+              ))}
+            </div>
+          )}
         </div>
       )}
     </section>
