@@ -16,7 +16,7 @@ type Props = { params: Promise<{ slug: string }> };
 export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
   const project = await getProjectBySlug(slug);
-  return { title: project ? `${project.title} — VOCO Portal` : "Project not found" };
+  return { title: project ? project.title : "Project not found" };
 }
 
 export default async function ProjectPage({ params }: Props) {
@@ -27,7 +27,6 @@ export default async function ProjectPage({ params }: Props) {
   const isAdmin = session?.role === "admin";
   if (!project.published && !isAdmin) notFound();
 
-  const meta = [project.category, project.year].filter(Boolean).join("  ·  ");
   const html = renderMarkdown(project.description || project.summary);
 
   const index = all.findIndex((p) => p.slug === project.slug);
@@ -50,8 +49,9 @@ export default async function ProjectPage({ params }: Props) {
         </Link>
 
         <header className="mt-8">
-          <p data-animate className="font-mono text-xs uppercase tracking-[0.2em] text-muted">
-            {meta}
+          <p data-animate className="kicker">
+            {project.category}
+            {project.year ? <span className="ml-3 text-muted/70">{project.year}</span> : null}
           </p>
           <h1 data-animate className="font-display mt-4 text-4xl font-bold leading-tight tracking-tight text-ink md:text-6xl">
             {project.title}
@@ -125,7 +125,7 @@ export default async function ProjectPage({ params }: Props) {
                 href={`/catalog/${prev.slug}`}
                 className="group flex flex-col rounded-[var(--radius-card)] border border-line bg-surface p-5 transition-colors hover:border-ink"
               >
-                <span className="font-mono text-xs uppercase tracking-[0.18em] text-muted">Previous</span>
+                <span className="kicker">Previous</span>
                 <span className="font-display mt-2 text-xl font-semibold text-ink transition-colors group-hover:text-accent">
                   {prev.title}
                 </span>
@@ -134,7 +134,7 @@ export default async function ProjectPage({ params }: Props) {
                 href={`/catalog/${next.slug}`}
                 className="group flex flex-col items-end rounded-[var(--radius-card)] border border-line bg-surface p-5 text-right transition-colors hover:border-ink"
               >
-                <span className="font-mono text-xs uppercase tracking-[0.18em] text-muted">Next</span>
+                <span className="kicker">Next</span>
                 <span className="font-display mt-2 text-xl font-semibold text-ink transition-colors group-hover:text-accent">
                   {next.title}
                 </span>
