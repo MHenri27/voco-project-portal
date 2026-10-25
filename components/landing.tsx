@@ -37,16 +37,12 @@ export function Landing({ projectCount }: { projectCount: number }) {
         .to(".card", { y: 0, opacity: 1, duration: 1 }, "-=1");
 
       if (contextSafe && !window.matchMedia("(hover: none)").matches) {
-        const washX = gsap.quickTo(".bg-wash", "xPercent", { duration: 1.2, ease: "power3.out" });
-        const washY = gsap.quickTo(".bg-wash", "yPercent", { duration: 1.2, ease: "power3.out" });
         const cardX = gsap.quickTo(".card", "x", { duration: 0.9, ease: "power3.out" });
         const cardY = gsap.quickTo(".card", "y", { duration: 0.9, ease: "power3.out" });
 
         const onMove = contextSafe((event: PointerEvent) => {
           const dx = (event.clientX - window.innerWidth / 2) / (window.innerWidth / 2);
           const dy = (event.clientY - window.innerHeight / 2) / (window.innerHeight / 2);
-          washX(dx * 4);
-          washY(dy * 4);
           cardX(dx * 10);
           cardY(dy * 10);
         });
