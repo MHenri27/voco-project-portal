@@ -111,7 +111,7 @@ export function CatalogView({ projects }: { projects: Project[] }) {
               key={c}
               onClick={() => setCategory(c)}
               className={cn(
-                "relative text-sm transition-colors",
+                "relative w-24 text-center text-sm transition-colors",
                 category === c ? "font-semibold text-ink" : "text-muted hover:text-ink",
               )}
             >
@@ -151,7 +151,7 @@ export function CatalogView({ projects }: { projects: Project[] }) {
         </div>
       ) : (
         <div ref={root} onPointerMove={onPointerMove}>
-          {visible.map((project, i) => (
+          {visible.map((project) => (
             <Link
               key={project.id}
               href={`/catalog/${project.slug}`}
@@ -163,10 +163,6 @@ export function CatalogView({ projects }: { projects: Project[] }) {
               onMouseLeave={() => api.current?.hide()}
             >
               <div className="flex items-center gap-5 py-6 transition-[padding] duration-300 group-hover:lg:pl-4 md:gap-8 md:py-8">
-                <span className="w-8 shrink-0 text-sm tabular-nums text-muted">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-
                 {/* Inline cover for touch devices, hidden where the hover preview works. */}
                 <div className="relative size-14 shrink-0 overflow-hidden rounded-xl bg-surface-sunk lg:hidden">
                   {project.coverImage && (
