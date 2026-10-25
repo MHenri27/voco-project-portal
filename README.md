@@ -1,36 +1,81 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# VOCO Project Portal
 
-## Getting Started
+A private, password-gated catalog for showcasing schoolwork projects, with an
+owner-only dashboard for managing them. Built to run on Vercel.
 
-First, run the development server:
+- **Viewer gate** — one shared password unlocks the catalog for teachers and classmates.
+- **Owner dashboard** — a separate admin password unlocks adding, editing, reordering,
+  featuring, and deleting projects, with image uploads and a Markdown editor.
+- **Real auth** — passwords are checked on the server and sessions are signed JWTs in
+  `httpOnly` cookies. Nothing is gated with client-side tricks.
+
+## Stack
+
+- **Next.js 16** (App Router) + **React 19** + **TypeScript**
+- **Tailwind v4** for styling, **GSAP** for motion
+- **Drizzle ORM** + **Postgres** (Neon / Vercel Postgres) for data
+- **jose** for JWT sessions, **Vercel Blob** for image uploads
+
+## Running locally
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+A `.env.local` is already set up with a generated `AUTH_SECRET` and dev passwords, and
+with no `DATABASE_URL` the app runs on **read-only sample data** so you can click around
+immediately.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Viewer password: `voco2026`
+- Admin password: `henri-dashboard`
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Change these in `.env.local`. See `.env.example` for every variable.
 
-## Learn More
+## Connecting a database
 
-To learn more about Next.js, take a look at the following resources:
+The catalog is read-only until a Postgres database is connected.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Create a free Postgres database (Neon or Vercel Postgres) and copy its connection string.
+2. Put it in `.env.local` as `DATABASE_URL=...`
+3. Create the table and seed the sample projects:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npm run db:push    # creates the projects table from the schema
+npm run db:seed    # loads the sample projects (optional)
+```
 
-## Deploy on Vercel
+Now the dashboard can create, edit, reorder, and delete projects.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Deploying to Vercel
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Push this repo to GitHub and import it in Vercel.
+2. Add a Postgres store (Neon integration or Vercel Postgres) and a Blob store. These set
+   `DATABASE_URL` and `BLOB_READ_WRITE_TOKEN` for you.
+3. Add the remaining environment variables in the Vercel project settings:
+   `AUTH_SECRET`, `VIEWER_PASSWORD`, `ADMIN_PASSWORD`.
+4. Run `npm run db:push` once against the production database (locally with the production
+   `DATABASE_URL`, or from the Vercel CLI) to create the table.
+
+Image uploads need a Blob store. Without one, you can still add images by pasting URLs.
+
+## How it is organised
+
+```
+app/                 routes (landing, catalog, detail, admin, api)
+components/          UI and client interactions (GSAP lives here)
+components/editor/   the project editor and its fields
+lib/                data access, auth, validation, helpers
+lib/db/             drizzle schema and client
+db/seed.ts          sample-data seeder
+proxy.ts            route gating (viewer vs admin)
+vault/              Obsidian documentation vault
+```
+
+## Security notes
+
+- The viewer catalog and the admin dashboard are both gated in `proxy.ts` and re-checked
+  in every API route. Drafts are never served to viewers.
+- A single shared viewer password means anyone who has it can pass it on. That is fine for
+  a school portfolio; per-person access would be a later upgrade.
+- `AUTH_SECRET` signs session cookies. Use a long random value and keep it out of git.
