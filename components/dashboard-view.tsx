@@ -122,7 +122,7 @@ export function DashboardView({ initialProjects, canWrite }: { initialProjects: 
     <section className="mx-auto max-w-[1400px] px-5 py-12 md:px-10 md:py-16">
       <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
         <div>
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted">Manage</p>
+          <p className="kicker">Manage</p>
           <h1 className="font-display mt-3 text-4xl font-bold tracking-tight text-ink md:text-5xl">Projects</h1>
         </div>
         {canWrite && (
@@ -157,8 +157,8 @@ export function DashboardView({ initialProjects, canWrite }: { initialProjects: 
               key={s}
               onClick={() => setStatus(s)}
               className={cn(
-                "rounded-full px-4 py-1.5 text-sm capitalize transition-colors",
-                status === s ? "bg-ink text-bg" : "text-ink-soft hover:bg-surface-sunk",
+                "rounded-full px-4 py-1.5 text-sm font-medium capitalize transition-colors",
+                status === s ? "bg-accent text-on-accent" : "text-ink-soft hover:bg-surface-sunk",
               )}
             >
               {s}
@@ -228,9 +228,10 @@ export function DashboardView({ initialProjects, canWrite }: { initialProjects: 
 
                 <div className="min-w-0 flex-1">
                   <p className="truncate font-medium text-ink">{project.title}</p>
-                  <p className="truncate font-mono text-xs text-muted">
+                  <p className="truncate text-xs text-muted">
                     {project.category}
-                    {project.year ? `  ·  ${project.year}` : ""}  ·  /{project.slug}
+                    {project.year ? ` ${project.year}` : ""}{" "}
+                    <span className="text-muted/60">/{project.slug}</span>
                   </p>
                 </div>
 
@@ -275,7 +276,7 @@ export function DashboardView({ initialProjects, canWrite }: { initialProjects: 
                       onClick={() => remove(project)}
                       disabled={busy}
                       aria-label="Delete"
-                      className="flex size-9 items-center justify-center rounded-full text-muted hover:bg-accent/10 hover:text-accent disabled:opacity-40"
+                      className="flex size-9 items-center justify-center rounded-full text-muted hover:bg-red-50 hover:text-red-600 disabled:opacity-40"
                     >
                       <Trash className="size-4" />
                     </button>
@@ -294,7 +295,7 @@ function Stat({ label, value }: { label: string; value: number }) {
   return (
     <div className="rounded-[var(--radius-card)] border border-line bg-surface p-5">
       <p className="font-display text-4xl font-bold text-ink">{value}</p>
-      <p className="mt-1 font-mono text-xs uppercase tracking-wider text-muted">{label}</p>
+      <p className="kicker mt-1">{label}</p>
     </div>
   );
 }
