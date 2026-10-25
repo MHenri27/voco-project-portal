@@ -3,9 +3,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowLeft, ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
 import { getSession } from "@/lib/session";
-import { getProjectBySlug } from "@/lib/projects";
+import { getProjectBySlug, listProjects } from "@/lib/projects";
 import { renderMarkdown } from "@/lib/markdown";
 import { SiteNav } from "@/components/site-nav";
+import { ScrollProgress } from "@/components/scroll-progress";
 import { RevealController } from "@/components/reveal-controller";
 import { ParallaxCover } from "@/components/parallax-cover";
 import { buttonStyles } from "@/components/button";
@@ -20,7 +21,7 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function ProjectPage({ params }: Props) {
   const { slug } = await params;
-  const [session, project] = await Promise.all([getSession(), getProjectBySlug(slug)]);
+  const [session, project, all] = await Promise.all([getSession(), getProjectBySlug(slug), listProjects()]);
 
   if (!project) notFound();
   const isAdmin = session?.role === "admin";
@@ -29,8 +30,13 @@ export default async function ProjectPage({ params }: Props) {
   const meta = [project.category, project.year].filter(Boolean).join("  ·  ");
   const html = renderMarkdown(project.description || project.summary);
 
+  const index = all.findIndex((p) => p.slug === project.slug);
+  const prev = index >= 0 && all.length > 1 ? all[(index - 1 + all.length) % all.length] : null;
+  const next = index >= 0 && all.length > 1 ? all[(index + 1) % all.length] : null;
+
   return (
     <>
+      <ScrollProgress />
       <SiteNav isAdmin={isAdmin} />
       <RevealController />
 
@@ -112,11 +118,35 @@ export default async function ProjectPage({ params }: Props) {
           </div>
         )}
 
-        <footer className="mt-20 border-t border-line pt-10">
-          <Link href="/catalog" className={buttonStyles("dark", "md")}>
-            <ArrowLeft weight="bold" className="size-4" />
-            Back to all projects
-          </Link>
+        <footer className="mt-24 border-t border-line pt-10">
+          {prev && next && (
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Link
+                href={`/catalog/${prev.slug}`}
+                className="group flex flex-col rounded-[var(--radius-card)] border border-line bg-surface p-5 transition-colors hover:border-ink"
+              >
+                <span className="font-mono text-xs uppercase tracking-[0.18em] text-muted">Previous</span>
+                <span className="font-display mt-2 text-xl font-semibold text-ink transition-colors group-hover:text-accent">
+                  {prev.title}
+                </span>
+              </Link>
+              <Link
+                href={`/catalog/${next.slug}`}
+                className="group flex flex-col items-end rounded-[var(--radius-card)] border border-line bg-surface p-5 text-right transition-colors hover:border-ink"
+              >
+                <span className="font-mono text-xs uppercase tracking-[0.18em] text-muted">Next</span>
+                <span className="font-display mt-2 text-xl font-semibold text-ink transition-colors group-hover:text-accent">
+                  {next.title}
+                </span>
+              </Link>
+            </div>
+          )}
+          <div className="mt-8 flex justify-center">
+            <Link href="/catalog" className={buttonStyles("dark", "md")}>
+              <ArrowLeft weight="bold" className="size-4" />
+              Back to all projects
+            </Link>
+          </div>
         </footer>
       </article>
     </>
