@@ -5,8 +5,6 @@ import type { Project } from "@/lib/types";
 
 // The hero slot at the top of the catalog: one project, shown large.
 export function FeaturedLead({ project }: { project: Project }) {
-  const meta = [project.category, project.year].filter(Boolean).join("  ·  ");
-
   return (
     <Link
       href={`/catalog/${project.slug}`}
@@ -34,7 +32,10 @@ export function FeaturedLead({ project }: { project: Project }) {
       </div>
 
       <div className="px-2 lg:px-6">
-        <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted">{meta}</p>
+        <p className="kicker">
+          {project.category}
+          {project.year ? <span className="ml-3 text-muted/70">{project.year}</span> : null}
+        </p>
         <h2 className="font-display mt-3 text-3xl font-bold tracking-tight text-ink transition-colors group-hover:text-accent md:text-4xl">
           {project.title}
         </h2>

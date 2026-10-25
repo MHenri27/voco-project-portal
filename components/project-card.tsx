@@ -7,8 +7,6 @@ import { Tilt } from "@/components/tilt";
 import type { Project } from "@/lib/types";
 
 export function ProjectCard({ project }: { project: Project }) {
-  const meta = [project.category, project.year].filter(Boolean).join("  ·  ");
-
   return (
     <Link href={`/catalog/${project.slug}`} className="cat-card group block [perspective:1000px]" data-animate>
       <Tilt>
@@ -51,7 +49,10 @@ export function ProjectCard({ project }: { project: Project }) {
           <h3 className="font-display text-xl font-semibold text-ink transition-colors group-hover:text-accent">
             {project.title}
           </h3>
-          <p className="mt-1 font-mono text-xs uppercase tracking-wider text-muted">{meta}</p>
+          <p className="mt-1 text-sm text-muted">
+            {project.category}
+            {project.year ? <span className="text-muted/70"> {project.year}</span> : null}
+          </p>
         </div>
 
         {project.tags.length > 0 && (
