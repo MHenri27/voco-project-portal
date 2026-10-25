@@ -114,7 +114,7 @@ export function ProjectEditor({ project }: { project?: Project }) {
         </div>
         <div className="flex items-center gap-2">
           {project && (
-            <Button variant="ghost" onClick={remove} disabled={pending} className="text-accent hover:bg-accent/10">
+            <Button variant="ghost" onClick={remove} disabled={pending} className="text-red-600 hover:bg-red-50">
               <Trash className="size-4" /> Delete
             </Button>
           )}
@@ -143,7 +143,7 @@ export function ProjectEditor({ project }: { project?: Project }) {
                   set("slug", slugify(e.target.value));
                 }}
                 placeholder="project-name"
-                className={cn(inputClass, "font-mono text-sm")}
+                className={cn(inputClass, "text-sm")}
               />
             </Field>
             <Field label="Category">
@@ -211,7 +211,7 @@ export function ProjectEditor({ project }: { project?: Project }) {
         </div>
 
         <aside className="lg:sticky lg:top-24 lg:self-start">
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted">Live preview</p>
+          <p className="kicker">Live preview</p>
           <div className="mt-4 rounded-[var(--radius-card)] border border-line bg-surface p-5">
             <div className="pointer-events-none">
               <ProjectCard project={previewProject} />

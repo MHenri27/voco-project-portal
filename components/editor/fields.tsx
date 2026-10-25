@@ -8,7 +8,7 @@ import { cn } from "@/lib/cn";
 import type { GalleryImage, ProjectLink } from "@/lib/types";
 
 export const inputClass =
-  "w-full rounded-[var(--radius-input)] border border-line-strong bg-surface px-4 py-3 text-ink outline-none transition-colors placeholder:text-muted/60 focus:border-ink";
+  "w-full rounded-[var(--radius-input)] border border-line-strong bg-bg px-4 py-3 text-ink outline-none transition-colors placeholder:text-muted/60 focus:border-accent";
 
 export function Field({
   label,
