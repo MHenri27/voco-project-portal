@@ -78,7 +78,7 @@ export function CatalogView({ projects }: { projects: Project[] }) {
     <section className="mx-auto max-w-[1400px] px-5 py-14 md:px-10 md:py-20">
       <header className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
         <div className="max-w-2xl">
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted">Catalog</p>
+          <p className="kicker">The collection</p>
           <h1 className="font-display mt-3 text-4xl font-bold leading-[1.02] tracking-tight text-ink md:text-6xl">
             Everything I have
             <br />
@@ -88,7 +88,7 @@ export function CatalogView({ projects }: { projects: Project[] }) {
             Coursework, side projects, and experiments. Filter by discipline or search for something specific.
           </p>
         </div>
-        <p className="shrink-0 font-mono text-sm text-muted">
+        <p className="shrink-0 text-sm text-muted">
           {visible.length} {visible.length === 1 ? "project" : "projects"}
         </p>
       </header>
@@ -100,8 +100,8 @@ export function CatalogView({ projects }: { projects: Project[] }) {
               key={c}
               onClick={() => setCategory(c)}
               className={cn(
-                "rounded-full px-4 py-1.5 text-sm transition-colors",
-                category === c ? "bg-ink text-bg" : "text-ink-soft hover:bg-surface-sunk",
+                "rounded-full px-4 py-1.5 text-sm font-medium transition-colors",
+                category === c ? "bg-accent text-on-accent" : "text-ink-soft hover:bg-surface-sunk",
               )}
             >
               {c}
@@ -116,13 +116,13 @@ export function CatalogView({ projects }: { projects: Project[] }) {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search projects"
-              className="h-10 w-full rounded-full border border-line bg-surface pl-9 pr-4 text-sm outline-none transition-colors placeholder:text-muted/70 focus:border-ink lg:w-56"
+              className="h-10 w-full rounded-full border border-line bg-surface pl-9 pr-4 text-sm outline-none transition-colors placeholder:text-muted/70 focus:border-accent lg:w-56"
             />
           </div>
           <select
             value={sort}
             onChange={(e) => setSort(e.target.value as Sort)}
-            className="h-10 rounded-full border border-line bg-surface px-4 text-sm text-ink-soft outline-none transition-colors focus:border-ink"
+            className="h-10 rounded-full border border-line bg-surface px-4 text-sm text-ink-soft outline-none transition-colors focus:border-accent"
             aria-label="Sort projects"
           >
             <option value="curated">Curated</option>
