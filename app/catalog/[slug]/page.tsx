@@ -50,7 +50,7 @@ export default async function ProjectPage({ params }: Props) {
 
         <header className="mt-8">
           <p data-animate className="kicker">
-            {project.category}
+            aasta
             {project.year ? <span className="ml-3 text-muted/70">{project.year}</span> : null}
           </p>
           <h1 data-animate className="font-display mt-4 text-4xl font-bold leading-tight tracking-tight text-ink md:text-6xl">

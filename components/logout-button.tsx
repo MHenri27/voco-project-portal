@@ -22,7 +22,7 @@ export function LogoutButton({ to = "/" }: { to?: string }) {
       className="inline-flex items-center gap-1.5 text-sm text-muted transition-colors hover:text-ink disabled:opacity-50"
     >
       <SignOut weight="bold" className="size-4" />
-      {pending ? "Signing out…" : "Sign out"}
+      {pending ? "Väljumine…" : "Logi välja"}
     </button>
   );
 }

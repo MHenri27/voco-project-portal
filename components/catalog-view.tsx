@@ -15,7 +15,7 @@ type Sort = "curated" | "newest" | "az";
 
 export function CatalogView({ projects }: { projects: Project[] }) {
   const [query, setQuery] = useState("");
-  const [category, setCategory] = useState("All");
+  const [category, setCategory] = useState("Kõik");
   const [sort, setSort] = useState<Sort>("curated");
   const [active, setActive] = useState<Project | null>(null);
 
@@ -24,13 +24,13 @@ export function CatalogView({ projects }: { projects: Project[] }) {
   const api = useRef<{ move: (x: number, y: number) => void; show: () => void; hide: () => void } | null>(null);
 
   const categories = useMemo(
-    () => ["All", ...Array.from(new Set(projects.map((p) => p.category)))],
+    () => ["Kõik", ...Array.from(new Set(projects.map((p) => p.category)))],
     [projects],
   );
 
   const visible = useMemo(() => {
     const q = query.trim().toLowerCase();
-    let list = projects.filter((p) => category === "All" || p.category === category);
+    let list = projects.filter((p) => category === "Kõik" || p.category === category);
     if (q) {
       list = list.filter((p) => [p.title, p.summary, p.category, ...p.tags].join(" ").toLowerCase().includes(q));
     }
@@ -93,14 +93,13 @@ export function CatalogView({ projects }: { projects: Project[] }) {
   return (
     <section className="mx-auto max-w-[1400px] px-5 py-14 md:px-10 md:py-20">
       <header className="max-w-3xl">
-        <p className="kicker">Index</p>
         <h1 className="font-display mt-3 text-5xl font-bold leading-[0.95] tracking-tight text-ink md:text-8xl">
-          Selected
+          Valitud
           <br />
-          <span className="text-accent">work.</span>
+          <span className="text-accent">tööd.</span>
         </h1>
         <p className="mt-6 max-w-lg text-lg leading-relaxed text-ink-soft">
-          {projects.length} projects built at VOCO. Hover a title to preview it, or filter below.
+          {projects.length} VOCO-s loodud projekti. Vii kursor pealkirjale, et seda näha, või filtreeri allpool.
         </p>
       </header>
 
@@ -127,7 +126,7 @@ export function CatalogView({ projects }: { projects: Project[] }) {
             <input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search"
+              placeholder="Otsi"
               className="h-9 w-full rounded-full border border-line bg-surface pl-9 pr-4 text-sm outline-none transition-colors placeholder:text-muted/70 focus:border-accent lg:w-44"
             />
           </div>
@@ -135,19 +134,19 @@ export function CatalogView({ projects }: { projects: Project[] }) {
             value={sort}
             onChange={(e) => setSort(e.target.value as Sort)}
             className="h-9 rounded-full border border-line bg-surface px-3 text-sm text-ink-soft outline-none transition-colors focus:border-accent"
-            aria-label="Sort projects"
+            aria-label="Sorteeri projekte"
           >
-            <option value="curated">Curated</option>
-            <option value="newest">Newest</option>
-            <option value="az">A to Z</option>
+            <option value="curated">Valitud järjestus</option>
+            <option value="newest">Uuemad</option>
+            <option value="az">Tähestikuliselt</option>
           </select>
         </div>
       </div>
 
       {visible.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-28 text-center">
-          <p className="font-display text-2xl text-ink">Nothing matches</p>
-          <p className="mt-2 max-w-sm text-sm text-muted">Try a different search or clear the filter.</p>
+          <p className="font-display text-2xl text-ink">Midagi ei leitud</p>
+          <p className="mt-2 max-w-sm text-sm text-muted">Proovi teist otsingut või tühjenda filter.</p>
         </div>
       ) : (
         <div ref={root} onPointerMove={onPointerMove}>
