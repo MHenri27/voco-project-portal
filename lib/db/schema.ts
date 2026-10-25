@@ -1,5 +1,5 @@
 import { pgTable, uuid, text, boolean, integer, timestamp, jsonb } from "drizzle-orm/pg-core";
-import type { GalleryImage, ProjectLink } from "@/lib/types";
+import type { GalleryImage, ProjectLink } from "../types";
 
 export const projects = pgTable("projects", {
   id: uuid("id").primaryKey().defaultRandom(),
