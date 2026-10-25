@@ -18,19 +18,23 @@ export function Landing({ projectCount }: { projectCount: number }) {
     (_context, contextSafe) => {
       const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-      if (reduce) {
-        gsap.set(".hl", { scaleX: 1 });
-        return;
-      }
+      if (reduce) return;
+
+      // Explicit start states + .to() so the intro always resolves to visible,
+      // even when dev Strict Mode re-runs the effect.
+      gsap.set(".nav-item", { y: -16, opacity: 0 });
+      gsap.set(".ln", { yPercent: 118 });
+      gsap.set(".hl", { scaleX: 0 });
+      gsap.set([".sub", ".meta"], { y: 18, opacity: 0 });
+      gsap.set(".card", { y: 34, opacity: 0 });
 
       const tl = gsap.timeline({ defaults: { ease: "power3.out", duration: 0.9 } });
-      tl.from(".bg-wash", { opacity: 0, duration: 1.6 }, 0)
-        .from(".nav-item", { y: -16, opacity: 0, stagger: 0.08 }, 0)
-        .from(".ln", { yPercent: 118, stagger: 0.12, duration: 1 }, "-=0.3")
-        .fromTo(".hl", { scaleX: 0 }, { scaleX: 1, duration: 0.7, ease: "power3.inOut" }, "-=0.35")
-        .from(".sub", { y: 18, opacity: 0 }, "-=0.6")
-        .from(".meta", { y: 14, opacity: 0 }, "-=0.65")
-        .from(".card", { y: 34, opacity: 0, duration: 1 }, "-=1");
+      tl.to(".nav-item", { y: 0, opacity: 1, duration: 0.7, stagger: 0.08 }, 0)
+        .to(".ln", { yPercent: 0, stagger: 0.12, duration: 1 }, "-=0.3")
+        .to(".hl", { scaleX: 1, duration: 0.7, ease: "power3.inOut" }, "-=0.35")
+        .to(".sub", { y: 0, opacity: 1 }, "-=0.6")
+        .to(".meta", { y: 0, opacity: 1 }, "-=0.65")
+        .to(".card", { y: 0, opacity: 1, duration: 1 }, "-=1");
 
       if (contextSafe && !window.matchMedia("(hover: none)").matches) {
         const washX = gsap.quickTo(".bg-wash", "xPercent", { duration: 1.2, ease: "power3.out" });
