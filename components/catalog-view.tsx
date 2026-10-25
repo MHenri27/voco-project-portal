@@ -66,7 +66,7 @@ export function CatalogView({ projects }: { projects: Project[] }) {
         const y = gsap.quickTo(el, "y", { duration: 0.5, ease: "power3.out" });
         const op = gsap.quickTo(el, "opacity", { duration: 0.3, ease: "power2.out" });
         const sc = gsap.quickTo(el, "scale", { duration: 0.45, ease: "power3.out" });
-        gsap.set(el, { opacity: 0, scale: 0.92, xPercent: -50, yPercent: -50 });
+        gsap.set(el, { opacity: 0, scale: 0.92, xPercent: 0, yPercent: -50 });
         api.current = {
           move: (mx, my) => {
             x(mx);
