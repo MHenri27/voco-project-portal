@@ -1,5 +1,4 @@
 import { SignJWT, jwtVerify } from "jose";
-import { timingSafeEqual } from "node:crypto";
 
 export type Role = "viewer" | "admin";
 
@@ -31,14 +30,4 @@ export async function verifySession(token: string | undefined): Promise<{ role: 
   } catch {
     return null;
   }
-}
-
-// Constant-time compare against the password stored in the environment.
-export function verifyPassword(scope: Role, candidate: string): boolean {
-  const expected = scope === "admin" ? process.env.ADMIN_PASSWORD : process.env.VIEWER_PASSWORD;
-  if (!expected) return false;
-  const a = Buffer.from(candidate);
-  const b = Buffer.from(expected);
-  if (a.length !== b.length) return false;
-  return timingSafeEqual(a, b);
 }

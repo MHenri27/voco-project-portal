@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import { verifyPassword, type Role } from "@/lib/auth";
+import type { Role } from "@/lib/auth";
+import { verifyPassword } from "@/lib/password";
 import { createSession } from "@/lib/session";
 
 export async function POST(req: Request) {
