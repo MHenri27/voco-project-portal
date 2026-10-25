@@ -1,31 +1,33 @@
 # Design System
 
-A warm gallery-white theme locked to light mode, with one accent and one radius system.
+Bright white with soft blue, locked to light mode, one accent and one radius system.
 Tokens live in `app/globals.css`.
 
 ## Tokens
 
-- **Canvas** `--bg` warm off-white, `--surface` lighter cards
-- **Ink** `--ink` warm near-black, `--ink-soft`, `--muted`
-- **Lines** `--line`, `--line-strong` hairlines
-- **Accent** `--accent` vermillion, used as a solid fill only, never as a glow
-- **Radius** cards 18px, inputs 12px, interactive elements are pills
+- **Canvas** `--bg` pure white, `--surface` / `--surface-sunk` faint blue tints
+- **Ink** `--ink` deep navy-black, `--ink-soft`, `--muted` (cool gray)
+- **Lines** `--line`, `--line-strong` soft blue-gray hairlines
+- **Accent** `--accent` soft blue, used as a solid fill only, never as a glow;
+  `--accent-soft` for pale blue washes. Red is used only for destructive actions and errors.
+- **Radius** cards 20px, inputs 12px, interactive elements are pills
 
 ## Type
 
-- **Display** Bricolage Grotesque — headlines
-- **Sans** Geist — body and UI
-- **Mono** Geist Mono — labels, metadata, slugs
+- **Display** Space Grotesk — headlines
+- **Body & UI** Figtree — everything else
+- No monospace in the UI. The old mono eyebrows are replaced by the `.kicker` label
+  (sans, small, tracked, used sparingly).
 
 ## Motion
 
-GSAP drives everything. CSS handles micro-transitions. See [[Components]] for each piece.
+GSAP drives everything; CSS handles micro-transitions. See [[Components]] for each piece.
 
-- Reveal on scroll (`reveal-controller`, and the catalog's own stagger)
-- Pointer drift and orbiting rings on the [[Pages & Routes|landing]]
-- A `scroll-progress` bar on catalog and detail
-- Parallax cover and 3D card tilt
-- Everything collapses to static under `prefers-reduced-motion`
+- The landing intro is a deterministic `gsap.set` + `.to()` timeline: a masked headline
+  reveal, an accent underline that wipes in, a staggered entrance, and a soft-blue wash.
+- Catalog and detail reveal on scroll (`reveal-controller` / per-grid stagger).
+- A `scroll-progress` bar, a parallax cover, and a 3D card tilt.
+- A single seamless marquee (two repeated halves shifting by one half-width).
+- Everything collapses to static under `prefers-reduced-motion`.
 
-The grain overlay and the `[data-animate]` reveal primitive are defined once in
-`globals.css`. Related: [[Architecture]].
+No decorative orbits, no middots or em dashes, no generic mono labels. Related: [[Architecture]].
