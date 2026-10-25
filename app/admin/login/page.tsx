@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ArrowLeft } from "@phosphor-icons/react/dist/ssr";
 import { LoginForm } from "@/components/login-form";
 
-export const metadata = { title: "Owner access — VOCO Portal" };
+export const metadata = { title: "Owner access" };
 
 export default function AdminLoginPage() {
   return (
@@ -13,14 +13,13 @@ export default function AdminLoginPage() {
           Back to entry
         </Link>
 
-        <div className="mt-6 rounded-[var(--radius-card)] border border-line bg-surface p-7 shadow-[0_24px_60px_-40px_rgba(20,19,14,0.5)]">
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted">Owner access</p>
+        <div className="relative mt-6 overflow-hidden rounded-[var(--radius-card)] border border-line bg-bg p-7 shadow-[0_40px_90px_-50px_rgba(37,61,180,0.45)]">
+          <div className="absolute inset-x-0 top-0 h-1 bg-accent" />
+          <p className="kicker">Owner access</p>
           <h1 className="font-display mt-3 text-3xl font-bold tracking-tight text-ink">Dashboard</h1>
-          <p className="mt-2 text-sm text-muted">Sign in to manage the catalog.</p>
+          <p className="mt-2 mb-6 text-sm text-muted">Sign in to manage the catalog.</p>
 
-          <div className="mt-6">
-            <LoginForm scope="admin" redirectTo="/admin" label="Admin password" />
-          </div>
+          <LoginForm scope="admin" redirectTo="/admin" label="Admin password" />
         </div>
       </div>
     </main>
