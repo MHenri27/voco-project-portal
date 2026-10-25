@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowRight, Eye, EyeSlash, LockKey } from "@phosphor-icons/react";
+import { ArrowRight, Eye, EyeSlash } from "@phosphor-icons/react";
 import { Button } from "@/components/button";
 import { cn } from "@/lib/cn";
 import type { Role } from "@/lib/auth";
@@ -46,16 +46,12 @@ export function LoginForm({ scope, redirectTo, label, hint }: Props) {
   }
 
   return (
-    <form onSubmit={onSubmit} className="flex flex-col gap-4">
-      <label htmlFor="password" className="text-xs font-mono uppercase tracking-[0.18em] text-muted">
+    <form onSubmit={onSubmit} className="flex flex-col gap-3">
+      <label htmlFor="password" className="text-sm font-medium text-ink">
         {label}
       </label>
 
       <div className="relative">
-        <LockKey
-          weight="bold"
-          className="pointer-events-none absolute left-4 top-1/2 size-5 -translate-y-1/2 text-muted"
-        />
         <input
           id="password"
           name="password"
@@ -65,9 +61,9 @@ export function LoginForm({ scope, redirectTo, label, hint }: Props) {
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Enter the access password"
           className={cn(
-            "h-13 w-full rounded-[var(--radius-input)] border bg-surface pl-12 pr-12 text-ink",
+            "h-13 w-full rounded-[var(--radius-input)] border bg-bg pl-4 pr-12 text-ink",
             "placeholder:text-muted/70 outline-none transition-colors",
-            error ? "border-accent" : "border-line-strong focus:border-ink",
+            error ? "border-red-400" : "border-line-strong focus:border-accent",
           )}
         />
         <button
@@ -81,14 +77,14 @@ export function LoginForm({ scope, redirectTo, label, hint }: Props) {
       </div>
 
       {error ? (
-        <p role="alert" className="text-sm text-accent">
+        <p role="alert" className="text-sm text-red-600">
           {error}
         </p>
       ) : hint ? (
         <p className="text-sm text-muted">{hint}</p>
       ) : null}
 
-      <Button type="submit" variant="dark" size="lg" disabled={pending} className="w-full">
+      <Button type="submit" variant="accent" size="lg" disabled={pending} className="mt-1 w-full">
         {pending ? "Checking…" : "Enter"}
         {!pending && <ArrowRight weight="bold" className="size-4" />}
       </Button>
