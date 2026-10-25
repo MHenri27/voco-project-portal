@@ -16,7 +16,7 @@ type Props = { params: Promise<{ slug: string }> };
 export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
   const project = await getProjectBySlug(slug);
-  return { title: project ? project.title : "Project not found" };
+  return { title: project ? project.title : "Projekti ei leitud" };
 }
 
 export default async function ProjectPage({ params }: Props) {
@@ -45,7 +45,7 @@ export default async function ProjectPage({ params }: Props) {
           className="inline-flex items-center gap-1.5 text-sm text-muted transition-colors hover:text-ink"
         >
           <ArrowLeft weight="bold" className="size-4" />
-          All projects
+          Kõik projektid
         </Link>
 
         <header className="mt-8">
@@ -125,7 +125,7 @@ export default async function ProjectPage({ params }: Props) {
                 href={`/catalog/${prev.slug}`}
                 className="group flex flex-col rounded-[var(--radius-card)] border border-line bg-surface p-5 transition-colors hover:border-ink"
               >
-                <span className="kicker">Previous</span>
+                <span className="kicker">Eelmine</span>
                 <span className="font-display mt-2 text-xl font-semibold text-ink transition-colors group-hover:text-accent">
                   {prev.title}
                 </span>
@@ -134,7 +134,7 @@ export default async function ProjectPage({ params }: Props) {
                 href={`/catalog/${next.slug}`}
                 className="group flex flex-col items-end rounded-[var(--radius-card)] border border-line bg-surface p-5 text-right transition-colors hover:border-ink"
               >
-                <span className="kicker">Next</span>
+                <span className="kicker">Järgmine</span>
                 <span className="font-display mt-2 text-xl font-semibold text-ink transition-colors group-hover:text-accent">
                   {next.title}
                 </span>
@@ -144,7 +144,7 @@ export default async function ProjectPage({ params }: Props) {
           <div className="mt-8 flex justify-center">
             <Link href="/catalog" className={buttonStyles("dark", "md")}>
               <ArrowLeft weight="bold" className="size-4" />
-              Back to all projects
+              Tagasi kõigi projektide juurde
             </Link>
           </div>
         </footer>

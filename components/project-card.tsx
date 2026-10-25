@@ -30,13 +30,13 @@ export function ProjectCard({ project }: { project: Project }) {
           {project.featured && (
             <span className="absolute left-3 top-3 inline-flex items-center gap-1 rounded-full bg-bg/90 px-3 py-1 text-xs font-medium text-ink backdrop-blur-sm">
               <Star weight="fill" className="size-3 text-accent" />
-              Featured
+              Esiletõstetud
             </span>
           )}
 
           {!project.published && (
             <span className="absolute right-3 top-3 rounded-full bg-ink px-3 py-1 text-xs font-medium text-bg">
-              Draft
+              Mustand
             </span>
           )}
 

@@ -4,7 +4,7 @@ import { AdminHeader } from "@/components/admin-header";
 import { ProjectEditor } from "@/components/editor/project-editor";
 
 export const dynamic = "force-dynamic";
-export const metadata = { title: "Edit project" };
+export const metadata = { title: "Muuda projekti" };
 
 type Props = { params: Promise<{ id: string }> };
 

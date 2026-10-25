@@ -33,14 +33,14 @@ export function LoginForm({ scope, redirectTo, label, hint }: Props) {
       });
       const data = await res.json();
       if (!res.ok) {
-        setError(data.error ?? "Could not sign in.");
+        setError(data.error ?? "Sisselogimine ebaõnnestus.");
         setPending(false);
         return;
       }
       router.push(redirectTo);
       router.refresh();
     } catch {
-      setError("Network error. Please try again.");
+      setError("Võrguviga. Palun proovi uuesti.");
       setPending(false);
     }
   }
@@ -59,7 +59,7 @@ export function LoginForm({ scope, redirectTo, label, hint }: Props) {
           autoComplete="current-password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          placeholder="Enter the access password"
+          placeholder="Sisesta ligipääsu parool"
           className={cn(
             "h-13 w-full rounded-[var(--radius-input)] border bg-bg pl-4 pr-12 text-ink",
             "placeholder:text-muted/70 outline-none transition-colors",
@@ -69,7 +69,7 @@ export function LoginForm({ scope, redirectTo, label, hint }: Props) {
         <button
           type="button"
           onClick={() => setShow((s) => !s)}
-          aria-label={show ? "Hide password" : "Show password"}
+          aria-label={show ? "Peida parool" : "Näita parooli"}
           className="absolute right-3 top-1/2 flex size-8 -translate-y-1/2 items-center justify-center rounded-full text-muted hover:bg-surface-sunk"
         >
           {show ? <EyeSlash className="size-5" /> : <Eye className="size-5" />}
@@ -85,7 +85,7 @@ export function LoginForm({ scope, redirectTo, label, hint }: Props) {
       ) : null}
 
       <Button type="submit" variant="accent" size="lg" disabled={pending} className="mt-1 w-full">
-        {pending ? "Checking…" : "Enter"}
+        {pending ? "Kontrollin…" : "Sisene"}
         {!pending && <ArrowRight weight="bold" className="size-4" />}
       </Button>
     </form>

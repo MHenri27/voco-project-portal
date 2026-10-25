@@ -53,21 +53,21 @@ function asLinks(value: unknown): ProjectLink[] {
 // Validate and normalise an untrusted request body into a ProjectInput.
 export function parseProjectInput(body: unknown): ProjectInput {
   if (!body || typeof body !== "object") {
-    throw new ValidationError("Expected a project object.");
+    throw new ValidationError("Oodati projekti objekti.");
   }
   const raw = body as Record<string, unknown>;
 
   const title = asString(raw.title);
-  if (!title) throw new ValidationError("Title is required.");
+  if (!title) throw new ValidationError("Pealkiri on nõutud.");
 
   const slug = asString(raw.slug) ? slugify(asString(raw.slug)) : slugify(title);
-  if (!slug) throw new ValidationError("Could not build a slug from the title.");
+  if (!slug) throw new ValidationError("Pealkirjast ei õnnestunud slug'i luua.");
 
   let year: number | null = null;
   if (raw.year !== null && raw.year !== undefined && raw.year !== "") {
     const n = Number(raw.year);
     if (!Number.isInteger(n) || n < 1980 || n > 2100) {
-      throw new ValidationError("Year must be a whole number between 1980 and 2100.");
+      throw new ValidationError("Aasta peab olema täisarv vahemikus 1980 kuni 2100.");
     }
     year = n;
   }

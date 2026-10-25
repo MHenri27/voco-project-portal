@@ -80,7 +80,7 @@ export function TagInput({ tags, onChange }: { tags: string[]; onChange: (tags: 
       {tags.map((tag) => (
         <span key={tag} className="inline-flex items-center gap-1 rounded-full bg-surface-sunk px-3 py-1 text-sm text-ink">
           {tag}
-          <button type="button" onClick={() => onChange(tags.filter((t) => t !== tag))} aria-label={`Remove ${tag}`}>
+          <button type="button" onClick={() => onChange(tags.filter((t) => t !== tag))} aria-label={`Eemalda ${tag}`}>
             <X weight="bold" className="size-3.5 text-muted hover:text-ink" />
           </button>
         </span>
@@ -97,7 +97,7 @@ export function TagInput({ tags, onChange }: { tags: string[]; onChange: (tags: 
           }
         }}
         onBlur={add}
-        placeholder={tags.length ? "Add another" : "Type a tag, press Enter"}
+        placeholder={tags.length ? "Lisa veel" : "Kirjuta silt, vajuta Enter"}
         className="min-w-32 flex-1 bg-transparent px-2 py-1 text-sm outline-none placeholder:text-muted/60"
       />
     </div>
@@ -114,7 +114,7 @@ function UploadButton({ onUploaded, onError }: { onUploaded: (url: string) => vo
     try {
       onUploaded(await uploadImage(file));
     } catch (err) {
-      onError(err instanceof Error ? err.message : "Upload failed.");
+      onError(err instanceof Error ? err.message : "Üleslaadimine ebaõnnestus.");
     } finally {
       setBusy(false);
       if (inputRef.current) inputRef.current.value = "";
@@ -137,7 +137,7 @@ function UploadButton({ onUploaded, onError }: { onUploaded: (url: string) => vo
         className="inline-flex items-center gap-1.5 rounded-full border border-line-strong px-3 py-1.5 text-sm text-ink-soft transition-colors hover:border-ink disabled:opacity-50"
       >
         <UploadSimple weight="bold" className="size-4" />
-        {busy ? "Uploading…" : "Upload"}
+        {busy ? "Laadin üles…" : "Laadi üles"}
       </button>
     </>
   );
@@ -155,7 +155,7 @@ export function ImageField({ value, onChange }: { value: string | null; onChange
           </div>
         ) : (
           <div className="flex size-20 shrink-0 items-center justify-center rounded-lg border border-dashed border-line-strong text-xs text-muted">
-            None
+            Puudub
           </div>
         )}
         <div className="flex flex-col gap-2">
@@ -166,7 +166,7 @@ export function ImageField({ value, onChange }: { value: string | null; onChange
               onClick={() => onChange(null)}
               className="inline-flex items-center gap-1.5 text-sm text-muted hover:text-accent"
             >
-              <Trash className="size-4" /> Remove
+              <Trash className="size-4" /> Eemalda
             </button>
           )}
         </div>
@@ -174,7 +174,7 @@ export function ImageField({ value, onChange }: { value: string | null; onChange
       <input
         value={value ?? ""}
         onChange={(e) => onChange(e.target.value || null)}
-        placeholder="…or paste an image URL"
+        placeholder="…või kleebi pildi URL"
         className={inputClass}
       />
       {error && <p className="text-sm text-accent">{error}</p>}
@@ -200,13 +200,13 @@ export function GalleryEditor({ items, onChange }: { items: GalleryImage[]; onCh
             <input
               value={item.url}
               onChange={(e) => update(index, { url: e.target.value })}
-              placeholder="Image URL"
+              placeholder="Pildi URL"
               className={cn(inputClass, "py-2")}
             />
             <input
               value={item.caption ?? ""}
               onChange={(e) => update(index, { caption: e.target.value })}
-              placeholder="Caption (optional)"
+              placeholder="Pealkiri (valikuline)"
               className={cn(inputClass, "py-2")}
             />
           </div>
@@ -214,7 +214,7 @@ export function GalleryEditor({ items, onChange }: { items: GalleryImage[]; onCh
             <button
               type="button"
               onClick={() => onChange(items.filter((_, i) => i !== index))}
-              aria-label="Remove image"
+              aria-label="Eemalda pilt"
               className="flex size-8 items-center justify-center rounded-full text-muted hover:bg-accent/10 hover:text-accent"
             >
               <Trash className="size-4" />
@@ -229,7 +229,7 @@ export function GalleryEditor({ items, onChange }: { items: GalleryImage[]; onCh
         onClick={() => onChange([...items, { url: "", caption: "" }])}
         className="inline-flex items-center gap-1.5 self-start rounded-full border border-line-strong px-4 py-2 text-sm text-ink-soft transition-colors hover:border-ink"
       >
-        <Plus weight="bold" className="size-4" /> Add image
+        <Plus weight="bold" className="size-4" /> Lisa pilt
       </button>
     </div>
   );
@@ -247,7 +247,7 @@ export function LinkEditor({ items, onChange }: { items: ProjectLink[]; onChange
           <input
             value={item.label}
             onChange={(e) => update(index, { label: e.target.value })}
-            placeholder="Label"
+            placeholder="Silt"
             className={cn(inputClass, "w-40 py-2")}
           />
           <input
@@ -259,7 +259,7 @@ export function LinkEditor({ items, onChange }: { items: ProjectLink[]; onChange
           <button
             type="button"
             onClick={() => onChange(items.filter((_, i) => i !== index))}
-            aria-label="Remove link"
+            aria-label="Eemalda link"
             className="flex size-9 shrink-0 items-center justify-center rounded-full text-muted hover:bg-accent/10 hover:text-accent"
           >
             <Trash className="size-4" />
@@ -271,7 +271,7 @@ export function LinkEditor({ items, onChange }: { items: ProjectLink[]; onChange
         onClick={() => onChange([...items, { label: "", url: "" }])}
         className="inline-flex items-center gap-1.5 self-start rounded-full border border-line-strong px-4 py-2 text-sm text-ink-soft transition-colors hover:border-ink"
       >
-        <Plus weight="bold" className="size-4" /> Add link
+        <Plus weight="bold" className="size-4" /> Lisa link
       </button>
     </div>
   );

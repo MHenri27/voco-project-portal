@@ -15,13 +15,13 @@ const sans = Figtree({
 });
 
 export const metadata: Metadata = {
-  title: "VOCO Projects",
-  description: "A private catalog of schoolwork projects built at VOCO.",
+  title: "VOCO Projektid",
+  description: "Privaatne kogu VOCO-s loodud koolitöö projektidest.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${sans.variable} ${display.variable} h-full antialiased`}>
+    <html lang="et" className={`${sans.variable} ${display.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-bg text-ink">{children}</body>
     </html>
   );

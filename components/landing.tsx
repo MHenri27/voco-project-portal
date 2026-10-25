@@ -72,7 +72,7 @@ export function Landing({ projectCount }: { projectCount: number }) {
           href="/admin/login"
           className="nav-item group inline-flex items-center gap-1.5 text-sm font-medium text-muted transition-colors hover:text-ink"
         >
-          Dashboard access
+          Töölaua ligipääs
           <ArrowUpRight weight="bold" className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
         </Link>
       </header>
@@ -81,29 +81,29 @@ export function Landing({ projectCount }: { projectCount: number }) {
         <div className="lg:col-span-7">
           <h1 className="font-display text-5xl font-bold leading-[1.0] tracking-tight text-ink md:text-7xl">
             <span className="block overflow-hidden pb-1">
-              <span className="ln block">The things I have</span>
+              <span className="ln block">Asjad, mille olen</span>
             </span>
             <span className="block overflow-hidden pb-1">
               <span className="ln block">
-                built at{" "}
+                loonud{" "}
                 <span className="relative inline-block text-accent">
                   VOCO
                   <span className="hl absolute inset-x-0 -bottom-1 h-2 origin-left rounded-full bg-accent/20" />
                 </span>
-                .
+                -s.
               </span>
             </span>
           </h1>
 
           <p className="sub mt-7 max-w-lg text-lg leading-relaxed text-ink-soft">
-            A private catalog of my schoolwork projects. Sign in with the shared password to
-            browse the full collection.
+            Privaatne kogu minu koolitöö projektidest. Logi sisse jagatud parooliga, et
+            sirvida kogu kollektsiooni.
           </p>
 
           <div className="meta mt-8 flex items-center gap-3 text-sm text-muted">
             <span className="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-3 py-1.5">
               <span className="size-1.5 rounded-full bg-accent" />
-              {projectCount} {projectCount === 1 ? "project" : "projects"} inside
+              {projectCount} {projectCount === 1 ? "projekt" : "projekti"} sees
             </span>
           </div>
         </div>
@@ -111,20 +111,20 @@ export function Landing({ projectCount }: { projectCount: number }) {
         <div className="lg:col-span-5">
           <div className="card relative mx-auto w-full max-w-md overflow-hidden rounded-[var(--radius-card)] border border-line bg-bg p-7 shadow-[0_40px_90px_-50px_rgba(37,61,180,0.45)]">
             <div className="absolute inset-x-0 top-0 h-1 bg-accent" />
-            <h2 className="font-display text-xl font-semibold text-ink">Enter the catalog</h2>
-            <p className="mt-1 mb-6 text-sm text-muted">Private to invited viewers.</p>
+            <h2 className="font-display text-xl font-semibold text-ink">Sisene kataloogi</h2>
+            <p className="mt-1 mb-6 text-sm text-muted">Ainult kutsutud vaatajatele.</p>
             <LoginForm
               scope="viewer"
               redirectTo="/catalog"
-              label="Password"
-              hint="Ask Henri for the password if you do not have it."
+              label="Parool"
+              hint="Küsi parooli Henrilt, kui sul seda pole."
             />
           </div>
         </div>
       </div>
 
       <footer className="border-t border-line py-6">
-        <Marquee items={["Web", "Hardware", "Design", "Systems", "Games", "Databases"]} />
+        <Marquee items={["Veeb", "Riistvara", "Disain", "Süsteemid", "Mängud", "Andmebaasid"]} />
       </footer>
     </main>
   );

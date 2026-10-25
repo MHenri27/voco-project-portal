@@ -5,7 +5,7 @@ import { parseProjectInput, ValidationError } from "@/lib/validate";
 
 export async function GET() {
   if (!(await requireAdmin())) {
-    return NextResponse.json({ error: "Not authorised." }, { status: 401 });
+    return NextResponse.json({ error: "Pole autoriseeritud." }, { status: 401 });
   }
   const projects = await listProjects({ includeDrafts: true });
   return NextResponse.json({ projects });
@@ -13,7 +13,7 @@ export async function GET() {
 
 export async function POST(req: Request) {
   if (!(await requireAdmin())) {
-    return NextResponse.json({ error: "Not authorised." }, { status: 401 });
+    return NextResponse.json({ error: "Pole autoriseeritud." }, { status: 401 });
   }
   try {
     const input = parseProjectInput(await req.json());
@@ -32,8 +32,8 @@ export function handleWriteError(err: unknown) {
     return NextResponse.json({ error: err.message }, { status: 503 });
   }
   if (err instanceof Error && err.message.includes("duplicate key")) {
-    return NextResponse.json({ error: "A project with that slug already exists." }, { status: 409 });
+    return NextResponse.json({ error: "Sellise slug'iga projekt on juba olemas." }, { status: 409 });
   }
   console.error(err);
-  return NextResponse.json({ error: "Something went wrong." }, { status: 500 });
+  return NextResponse.json({ error: "Midagi läks valesti." }, { status: 500 });
 }

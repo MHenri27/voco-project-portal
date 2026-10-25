@@ -4,7 +4,7 @@ import { AdminHeader } from "@/components/admin-header";
 import { DashboardView } from "@/components/dashboard-view";
 
 export const dynamic = "force-dynamic";
-export const metadata = { title: "Dashboard" };
+export const metadata = { title: "Töölaud" };
 
 export default async function AdminPage() {
   const projects = await listProjects({ includeDrafts: true });

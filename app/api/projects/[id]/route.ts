@@ -8,26 +8,26 @@ type Context = { params: Promise<{ id: string }> };
 
 export async function GET(_req: Request, { params }: Context) {
   if (!(await requireAdmin())) {
-    return NextResponse.json({ error: "Not authorised." }, { status: 401 });
+    return NextResponse.json({ error: "Pole autoriseeritud." }, { status: 401 });
   }
   const { id } = await params;
   const project = await getProjectById(id);
   if (!project) {
-    return NextResponse.json({ error: "Project not found." }, { status: 404 });
+    return NextResponse.json({ error: "Projekti ei leitud." }, { status: 404 });
   }
   return NextResponse.json({ project });
 }
 
 export async function PATCH(req: Request, { params }: Context) {
   if (!(await requireAdmin())) {
-    return NextResponse.json({ error: "Not authorised." }, { status: 401 });
+    return NextResponse.json({ error: "Pole autoriseeritud." }, { status: 401 });
   }
   const { id } = await params;
   try {
     const input = parseProjectInput(await req.json());
     const project = await updateProject(id, input);
     if (!project) {
-      return NextResponse.json({ error: "Project not found." }, { status: 404 });
+      return NextResponse.json({ error: "Projekti ei leitud." }, { status: 404 });
     }
     return NextResponse.json({ project });
   } catch (err) {
@@ -37,13 +37,13 @@ export async function PATCH(req: Request, { params }: Context) {
 
 export async function DELETE(_req: Request, { params }: Context) {
   if (!(await requireAdmin())) {
-    return NextResponse.json({ error: "Not authorised." }, { status: 401 });
+    return NextResponse.json({ error: "Pole autoriseeritud." }, { status: 401 });
   }
   const { id } = await params;
   try {
     const removed = await deleteProject(id);
     if (!removed) {
-      return NextResponse.json({ error: "Project not found." }, { status: 404 });
+      return NextResponse.json({ error: "Projekti ei leitud." }, { status: 404 });
     }
     return NextResponse.json({ ok: true });
   } catch (err) {

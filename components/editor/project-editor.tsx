@@ -49,7 +49,7 @@ export function ProjectEditor({ project }: { project?: Project }) {
   async function save() {
     setError(null);
     if (!form.title.trim()) {
-      setError("A title is required.");
+      setError("Pealkiri on nõutud.");
       return;
     }
     setPending(true);
@@ -61,29 +61,29 @@ export function ProjectEditor({ project }: { project?: Project }) {
         body: JSON.stringify(form),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error ?? "Save failed.");
+      if (!res.ok) throw new Error(data.error ?? "Salvestamine ebaõnnestus.");
       router.push("/admin");
       router.refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Save failed.");
+      setError(err instanceof Error ? err.message : "Salvestamine ebaõnnestus.");
       setPending(false);
     }
   }
 
   async function remove() {
     if (!project) return;
-    if (!window.confirm(`Delete "${project.title}"? This cannot be undone.`)) return;
+    if (!window.confirm(`Kustuta "${project.title}"? Seda ei saa tagasi võtta.`)) return;
     setPending(true);
     try {
       const res = await fetch(`/api/projects/${project.id}`, { method: "DELETE" });
       if (!res.ok) {
         const data = await res.json();
-        throw new Error(data.error ?? "Delete failed.");
+        throw new Error(data.error ?? "Kustutamine ebaõnnestus.");
       }
       router.push("/admin");
       router.refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Delete failed.");
+      setError(err instanceof Error ? err.message : "Kustutamine ebaõnnestus.");
       setPending(false);
     }
   }
@@ -106,21 +106,21 @@ export function ProjectEditor({ project }: { project?: Project }) {
             className="inline-flex items-center gap-1.5 text-sm text-muted transition-colors hover:text-ink"
           >
             <ArrowLeft weight="bold" className="size-4" />
-            Dashboard
+            Töölaud
           </Link>
           <h1 className="font-display mt-3 text-3xl font-bold tracking-tight text-ink md:text-4xl">
-            {project ? "Edit project" : "New project"}
+            {project ? "Muuda projekti" : "Uus projekt"}
           </h1>
         </div>
         <div className="flex items-center gap-2">
           {project && (
             <Button variant="ghost" onClick={remove} disabled={pending} className="text-red-600 hover:bg-red-50">
-              <Trash className="size-4" /> Delete
+              <Trash className="size-4" /> Kustuta
             </Button>
           )}
           <Button variant="dark" onClick={save} disabled={pending}>
             <FloppyDisk weight="bold" className="size-4" />
-            {pending ? "Saving…" : "Save project"}
+            {pending ? "Salvestan…" : "Salvesta projekt"}
           </Button>
         </div>
       </div>
@@ -131,11 +131,11 @@ export function ProjectEditor({ project }: { project?: Project }) {
         <div className="flex flex-col gap-8">
           <div className="grid gap-5 sm:grid-cols-2">
             <div className="sm:col-span-2">
-              <Field label="Title">
-                <input value={form.title} onChange={(e) => onTitle(e.target.value)} placeholder="Project name" className={inputClass} />
+              <Field label="Pealkiri">
+                <input value={form.title} onChange={(e) => onTitle(e.target.value)} placeholder="Projekti nimi" className={inputClass} />
               </Field>
             </div>
-            <Field label="Slug" hint="Used in the project URL.">
+            <Field label="Slug" hint="Kasutatakse projekti URL-is.">
               <input
                 value={form.slug}
                 onChange={(e) => {
@@ -146,7 +146,7 @@ export function ProjectEditor({ project }: { project?: Project }) {
                 className={cn(inputClass, "text-sm")}
               />
             </Field>
-            <Field label="Category">
+            <Field label="Kategooria">
               <input list="category-options" value={form.category} onChange={(e) => set("category", e.target.value)} className={inputClass} />
               <datalist id="category-options">
                 {CATEGORIES.map((c) => (
@@ -154,7 +154,7 @@ export function ProjectEditor({ project }: { project?: Project }) {
                 ))}
               </datalist>
             </Field>
-            <Field label="Year">
+            <Field label="Aasta">
               <input
                 type="number"
                 value={form.year ?? ""}
@@ -165,53 +165,53 @@ export function ProjectEditor({ project }: { project?: Project }) {
             </Field>
           </div>
 
-          <Field label="Summary" hint="One or two sentences shown on the card.">
+          <Field label="Kokkuvõte" hint="Üks või kaks lauset, mida näidatakse kaardil.">
             <textarea
               value={form.summary}
               onChange={(e) => set("summary", e.target.value)}
               rows={2}
-              placeholder="A short description"
+              placeholder="Lühike kirjeldus"
               className={cn(inputClass, "resize-y")}
             />
           </Field>
 
           <div>
-            <span className="text-sm font-medium text-ink">Description</span>
+            <span className="text-sm font-medium text-ink">Kirjeldus</span>
             <div className="mt-2">
               <MarkdownField value={form.description} onChange={(v) => set("description", v)} />
             </div>
           </div>
 
-          <Field label="Tags">
+          <Field label="Sildid">
             <TagInput tags={form.tags} onChange={(tags) => set("tags", tags)} />
           </Field>
 
-          <Field label="Cover image">
+          <Field label="Kaanepilt">
             <ImageField value={form.coverImage} onChange={(url) => set("coverImage", url)} />
           </Field>
 
           <div>
-            <span className="text-sm font-medium text-ink">Gallery</span>
+            <span className="text-sm font-medium text-ink">Galerii</span>
             <div className="mt-2">
               <GalleryEditor items={form.gallery} onChange={(items: GalleryImage[]) => set("gallery", items)} />
             </div>
           </div>
 
           <div>
-            <span className="text-sm font-medium text-ink">Links</span>
+            <span className="text-sm font-medium text-ink">Lingid</span>
             <div className="mt-2">
               <LinkEditor items={form.links} onChange={(items: ProjectLink[]) => set("links", items)} />
             </div>
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2">
-            <Toggle checked={form.featured} onChange={(v) => set("featured", v)} label="Featured" description="Highlight on the catalog." />
-            <Toggle checked={form.published} onChange={(v) => set("published", v)} label="Published" description="Visible to viewers." />
+            <Toggle checked={form.featured} onChange={(v) => set("featured", v)} label="Esiletõstetud" description="Tõsta kataloogis esile." />
+            <Toggle checked={form.published} onChange={(v) => set("published", v)} label="Avaldatud" description="Nähtav vaatajatele." />
           </div>
         </div>
 
         <aside className="lg:sticky lg:top-24 lg:self-start">
-          <p className="kicker">Live preview</p>
+          <p className="kicker">Reaalajas eelvaade</p>
           <div className="mt-4 rounded-[var(--radius-card)] border border-line bg-surface p-5">
             <div className="pointer-events-none">
               <ProjectCard project={previewProject} />
@@ -219,7 +219,7 @@ export function ProjectEditor({ project }: { project?: Project }) {
           </div>
           {!project && (
             <Link href="/admin" className={cn(buttonStyles("outline", "sm"), "mt-4")}>
-              Cancel
+              Tühista
             </Link>
           )}
         </aside>

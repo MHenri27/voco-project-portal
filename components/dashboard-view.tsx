@@ -22,6 +22,12 @@ import type { Project } from "@/lib/types";
 
 type Status = "all" | "published" | "draft";
 
+const STATUS_LABELS: Record<Status, string> = {
+  all: "Kõik",
+  published: "Avaldatud",
+  draft: "Mustandid",
+};
+
 export function DashboardView({ initialProjects, canWrite }: { initialProjects: Project[]; canWrite: boolean }) {
   const [projects, setProjects] = useState(initialProjects);
   const [query, setQuery] = useState("");
@@ -65,11 +71,11 @@ export function DashboardView({ initialProjects, canWrite }: { initialProjects: 
       });
       if (!res.ok) {
         const data = await res.json();
-        throw new Error(data.error ?? "Update failed.");
+        throw new Error(data.error ?? "Uuendamine ebaõnnestus.");
       }
     } catch (err) {
       setProjects(previous);
-      setMessage({ type: "error", text: err instanceof Error ? err.message : "Update failed." });
+      setMessage({ type: "error", text: err instanceof Error ? err.message : "Uuendamine ebaõnnestus." });
     } finally {
       setBusyId(null);
     }
@@ -91,28 +97,28 @@ export function DashboardView({ initialProjects, canWrite }: { initialProjects: 
       });
       if (!res.ok) {
         const data = await res.json();
-        throw new Error(data.error ?? "Reorder failed.");
+        throw new Error(data.error ?? "Ümberjärjestamine ebaõnnestus.");
       }
     } catch (err) {
       setProjects(previous);
-      setMessage({ type: "error", text: err instanceof Error ? err.message : "Reorder failed." });
+      setMessage({ type: "error", text: err instanceof Error ? err.message : "Ümberjärjestamine ebaõnnestus." });
     }
   }
 
   async function remove(project: Project) {
-    if (!window.confirm(`Delete "${project.title}"? This cannot be undone.`)) return;
+    if (!window.confirm(`Kustuta "${project.title}"? Seda ei saa tagasi võtta.`)) return;
     setBusyId(project.id);
     setMessage(null);
     try {
       const res = await fetch(`/api/projects/${project.id}`, { method: "DELETE" });
       if (!res.ok) {
         const data = await res.json();
-        throw new Error(data.error ?? "Delete failed.");
+        throw new Error(data.error ?? "Kustutamine ebaõnnestus.");
       }
       setProjects((list) => list.filter((p) => p.id !== project.id));
-      setMessage({ type: "success", text: `Deleted "${project.title}".` });
+      setMessage({ type: "success", text: `Kustutatud "${project.title}".` });
     } catch (err) {
-      setMessage({ type: "error", text: err instanceof Error ? err.message : "Delete failed." });
+      setMessage({ type: "error", text: err instanceof Error ? err.message : "Kustutamine ebaõnnestus." });
     } finally {
       setBusyId(null);
     }
@@ -122,13 +128,13 @@ export function DashboardView({ initialProjects, canWrite }: { initialProjects: 
     <section className="mx-auto max-w-[1400px] px-5 py-12 md:px-10 md:py-16">
       <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
         <div>
-          <p className="kicker">Manage</p>
-          <h1 className="font-display mt-3 text-4xl font-bold tracking-tight text-ink md:text-5xl">Projects</h1>
+          <p className="kicker">Halda</p>
+          <h1 className="font-display mt-3 text-4xl font-bold tracking-tight text-ink md:text-5xl">Projektid</h1>
         </div>
         {canWrite && (
           <Link href="/admin/projects/new" className={buttonStyles("accent", "md")}>
             <Plus weight="bold" className="size-4" />
-            New project
+            Uus projekt
           </Link>
         )}
       </div>
@@ -137,17 +143,17 @@ export function DashboardView({ initialProjects, canWrite }: { initialProjects: 
         <div className="mt-8 flex items-start gap-3 rounded-[var(--radius-card)] border border-accent/30 bg-accent/5 p-4 text-sm text-ink-soft">
           <Warning weight="fill" className="mt-0.5 size-5 shrink-0 text-accent" />
           <p>
-            You are viewing read-only sample data. Set <code className="font-mono">DATABASE_URL</code> and seed the
-            database to add and edit real projects.
+            Vaatad ainult-loetavaid näidisandmeid. Pärisprojektide lisamiseks ja muutmiseks sea{" "}
+            <code className="font-mono">DATABASE_URL</code> ja täida andmebaas.
           </p>
         </div>
       )}
 
       <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
-        <Stat label="Total" value={stats.total} />
-        <Stat label="Published" value={stats.published} />
-        <Stat label="Drafts" value={stats.drafts} />
-        <Stat label="Featured" value={stats.featured} />
+        <Stat label="Kokku" value={stats.total} />
+        <Stat label="Avaldatud" value={stats.published} />
+        <Stat label="Mustandid" value={stats.drafts} />
+        <Stat label="Esiletõstetud" value={stats.featured} />
       </div>
 
       <div className="mt-8 flex flex-col gap-4 border-y border-line py-4 lg:flex-row lg:items-center lg:justify-between">
@@ -157,11 +163,11 @@ export function DashboardView({ initialProjects, canWrite }: { initialProjects: 
               key={s}
               onClick={() => setStatus(s)}
               className={cn(
-                "rounded-full px-4 py-1.5 text-sm font-medium capitalize transition-colors",
+                "rounded-full px-4 py-1.5 text-sm font-medium transition-colors",
                 status === s ? "bg-accent text-on-accent" : "text-ink-soft hover:bg-surface-sunk",
               )}
             >
-              {s}
+              {STATUS_LABELS[s]}
             </button>
           ))}
         </div>
@@ -170,7 +176,7 @@ export function DashboardView({ initialProjects, canWrite }: { initialProjects: 
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search projects"
+            placeholder="Otsi projekte"
             className="h-10 w-full rounded-full border border-line bg-surface pl-9 pr-4 text-sm outline-none transition-colors placeholder:text-muted/70 focus:border-ink lg:w-64"
           />
         </div>
@@ -183,12 +189,12 @@ export function DashboardView({ initialProjects, canWrite }: { initialProjects: 
       )}
 
       {!manualOrder && canWrite && (
-        <p className="mt-5 text-xs text-muted">Clear the search and filter to reorder projects.</p>
+        <p className="mt-5 text-xs text-muted">Tühjenda otsing ja filter, et projekte ümber järjestada.</p>
       )}
 
       <div className="mt-6 divide-y divide-line border-y border-line">
         {visible.length === 0 ? (
-          <p className="py-16 text-center text-sm text-muted">No projects match.</p>
+          <p className="py-16 text-center text-sm text-muted">Ükski projekt ei vasta.</p>
         ) : (
           visible.map((project) => {
             const index = projects.findIndex((p) => p.id === project.id);
@@ -200,7 +206,7 @@ export function DashboardView({ initialProjects, canWrite }: { initialProjects: 
                     <button
                       onClick={() => move(index, -1)}
                       disabled={index === 0}
-                      aria-label="Move up"
+                      aria-label="Liiguta üles"
                       className="flex size-6 items-center justify-center rounded text-muted hover:bg-surface-sunk hover:text-ink disabled:opacity-30"
                     >
                       <CaretUp weight="bold" className="size-4" />
@@ -208,7 +214,7 @@ export function DashboardView({ initialProjects, canWrite }: { initialProjects: 
                     <button
                       onClick={() => move(index, 1)}
                       disabled={index === projects.length - 1}
-                      aria-label="Move down"
+                      aria-label="Liiguta alla"
                       className="flex size-6 items-center justify-center rounded text-muted hover:bg-surface-sunk hover:text-ink disabled:opacity-30"
                     >
                       <CaretDown weight="bold" className="size-4" />
@@ -240,7 +246,7 @@ export function DashboardView({ initialProjects, canWrite }: { initialProjects: 
                     active={project.featured}
                     disabled={!canWrite || busy}
                     onClick={() => persistField(project, { featured: !project.featured })}
-                    label={project.featured ? "Unfeature" : "Feature"}
+                    label={project.featured ? "Eemalda esiletõst" : "Tõsta esile"}
                   >
                     <Star weight={project.featured ? "fill" : "regular"} className="size-4" />
                   </IconToggle>
@@ -248,7 +254,7 @@ export function DashboardView({ initialProjects, canWrite }: { initialProjects: 
                     active={project.published}
                     disabled={!canWrite || busy}
                     onClick={() => persistField(project, { published: !project.published })}
-                    label={project.published ? "Unpublish" : "Publish"}
+                    label={project.published ? "Võta maha" : "Avalda"}
                   >
                     {project.published ? <Eye className="size-4" /> : <EyeSlash className="size-4" />}
                   </IconToggle>
@@ -260,13 +266,13 @@ export function DashboardView({ initialProjects, canWrite }: { initialProjects: 
                     project.published ? "bg-surface-sunk text-ink-soft" : "bg-ink text-bg",
                   )}
                 >
-                  {project.published ? "Live" : "Draft"}
+                  {project.published ? "Avaldatud" : "Mustand"}
                 </span>
 
                 <div className="flex items-center gap-1">
                   <Link
                     href={`/admin/projects/${project.id}`}
-                    aria-label="Edit"
+                    aria-label="Muuda"
                     className="flex size-9 items-center justify-center rounded-full text-muted hover:bg-surface-sunk hover:text-ink"
                   >
                     <PencilSimple className="size-4" />
@@ -275,7 +281,7 @@ export function DashboardView({ initialProjects, canWrite }: { initialProjects: 
                     <button
                       onClick={() => remove(project)}
                       disabled={busy}
-                      aria-label="Delete"
+                      aria-label="Kustuta"
                       className="flex size-9 items-center justify-center rounded-full text-muted hover:bg-red-50 hover:text-red-600 disabled:opacity-40"
                     >
                       <Trash className="size-4" />

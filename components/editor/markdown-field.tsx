@@ -38,10 +38,10 @@ export function MarkdownField({ value, onChange }: { value: string; onChange: (v
   }
 
   const tools = [
-    { icon: TextB, label: "Bold", run: () => surround("**") },
-    { icon: TextItalic, label: "Italic", run: () => surround("*") },
-    { icon: TextHOne, label: "Heading", run: () => prefixLine("## ") },
-    { icon: ListBullets, label: "List item", run: () => prefixLine("- ") },
+    { icon: TextB, label: "Paks", run: () => surround("**") },
+    { icon: TextItalic, label: "Kaldkiri", run: () => surround("*") },
+    { icon: TextHOne, label: "Pealkiri", run: () => prefixLine("## ") },
+    { icon: ListBullets, label: "Loendi element", run: () => prefixLine("- ") },
     { icon: LinkSimple, label: "Link", run: () => surround("[", "](https://)") },
   ];
 
@@ -68,14 +68,14 @@ export function MarkdownField({ value, onChange }: { value: string; onChange: (v
             onClick={() => setPreview(false)}
             className={cn("rounded-full px-3 py-1", !preview && "bg-surface text-ink shadow-sm")}
           >
-            Write
+            Kirjuta
           </button>
           <button
             type="button"
             onClick={() => setPreview(true)}
             className={cn("rounded-full px-3 py-1", preview && "bg-surface text-ink shadow-sm")}
           >
-            Preview
+            Eelvaade
           </button>
         </div>
       </div>
@@ -83,14 +83,14 @@ export function MarkdownField({ value, onChange }: { value: string; onChange: (v
       {preview ? (
         <div
           className="prose min-h-56 max-w-none px-4 py-4"
-          dangerouslySetInnerHTML={{ __html: renderMarkdown(value || "_Nothing to preview yet._") }}
+          dangerouslySetInnerHTML={{ __html: renderMarkdown(value || "_Pole veel midagi näidata._") }}
         />
       ) : (
         <textarea
           ref={ref}
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          placeholder="Describe the project. Markdown is supported: **bold**, *italic*, ## headings, - lists, [links](https://)."
+          placeholder="Kirjelda projekti. Markdown on toetatud: **paks**, *kaldkiri*, ## pealkirjad, - loendid, [lingid](https://)."
           className="min-h-56 w-full resize-y bg-transparent px-4 py-4 text-ink outline-none placeholder:text-muted/60"
         />
       )}
