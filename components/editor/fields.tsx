@@ -248,13 +248,13 @@ export function LinkEditor({ items, onChange }: { items: ProjectLink[]; onChange
             value={item.label}
             onChange={(e) => update(index, { label: e.target.value })}
             placeholder="Silt"
-            className={cn(inputClass, "w-40 py-2")}
+            className={cn(inputClass, "w-24 shrink-0 py-2 sm:w-40")}
           />
           <input
             value={item.url}
             onChange={(e) => update(index, { url: e.target.value })}
             placeholder="https://"
-            className={cn(inputClass, "flex-1 py-2")}
+            className={cn(inputClass, "min-w-0 flex-1 py-2")}
           />
           <button
             type="button"

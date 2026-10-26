@@ -98,7 +98,7 @@ export function ProjectEditor({ project }: { project?: Project }) {
   };
 
   return (
-    <section className="mx-auto max-w-[1400px] px-5 py-10 md:px-10 md:py-14">
+    <main id="main" className="mx-auto max-w-[1400px] px-5 py-10 md:px-10 md:py-14">
       <div className="flex flex-col gap-4 border-b border-line pb-6 md:flex-row md:items-center md:justify-between">
         <div>
           <Link
@@ -224,6 +224,6 @@ export function ProjectEditor({ project }: { project?: Project }) {
           )}
         </aside>
       </div>
-    </section>
+    </main>
   );
 }
