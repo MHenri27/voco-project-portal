@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowUpRight, Star } from "@phosphor-icons/react/dist/ssr";
 import { Tilt } from "@/components/tilt";
+import { shouldOptimize } from "@/lib/images";
 import type { Project } from "@/lib/types";
 
 export function ProjectCard({ project }: { project: Project }) {
@@ -17,6 +18,7 @@ export function ProjectCard({ project }: { project: Project }) {
               alt={project.title}
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              unoptimized={!shouldOptimize(project.coverImage)}
               className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]"
             />
           ) : (

@@ -17,6 +17,7 @@ import {
 } from "@phosphor-icons/react";
 import { buttonStyles } from "@/components/button";
 import { projectToInput } from "@/lib/to-input";
+import { shouldOptimize } from "@/lib/images";
 import { cn } from "@/lib/cn";
 import type { Project } from "@/lib/types";
 
@@ -176,6 +177,7 @@ export function DashboardView({ initialProjects, canWrite }: { initialProjects: 
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Otsi projekte"
+            aria-label="Otsi projekte"
             className="h-10 w-full rounded-full border border-line bg-surface pl-9 pr-4 text-sm outline-none transition-colors placeholder:text-muted/70 focus:border-ink lg:w-64"
           />
         </div>
@@ -223,7 +225,7 @@ export function DashboardView({ initialProjects, canWrite }: { initialProjects: 
 
                 <div className="relative size-14 shrink-0 overflow-hidden rounded-lg bg-surface-sunk">
                   {project.coverImage ? (
-                    <Image src={project.coverImage} alt="" fill sizes="56px" className="object-cover" />
+                    <Image src={project.coverImage} alt="" fill sizes="56px" unoptimized={!shouldOptimize(project.coverImage)} className="object-cover" />
                   ) : (
                     <span className="flex size-full items-center justify-center font-display text-lg text-line-strong">
                       {project.title.charAt(0)}

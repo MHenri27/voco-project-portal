@@ -7,6 +7,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ArrowUpRight, MagnifyingGlass } from "@phosphor-icons/react";
 import { cn } from "@/lib/cn";
+import { shouldOptimize } from "@/lib/images";
 import type { Project } from "@/lib/types";
 
 gsap.registerPlugin(useGSAP);
@@ -127,6 +128,7 @@ export function CatalogView({ projects }: { projects: Project[] }) {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Otsi"
+              aria-label="Otsi projekte"
               className="h-9 w-full rounded-full border border-line bg-surface pl-9 pr-4 text-sm outline-none transition-colors placeholder:text-muted/70 focus:border-accent lg:w-44"
             />
           </div>
@@ -165,7 +167,7 @@ export function CatalogView({ projects }: { projects: Project[] }) {
                 {/* Inline cover for touch devices, hidden where the hover preview works. */}
                 <div className="relative size-14 shrink-0 overflow-hidden rounded-xl bg-surface-sunk lg:hidden">
                   {project.coverImage && (
-                    <Image src={project.coverImage} alt="" fill sizes="56px" className="object-cover" />
+                    <Image src={project.coverImage} alt="" fill sizes="56px" unoptimized={!shouldOptimize(project.coverImage)} className="object-cover" />
                   )}
                 </div>
 

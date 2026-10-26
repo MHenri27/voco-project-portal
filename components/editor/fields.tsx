@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Plus, Trash, UploadSimple, X } from "@phosphor-icons/react";
 import { uploadImage } from "@/components/editor/upload";
 import { cn } from "@/lib/cn";
+import { shouldOptimize } from "@/lib/images";
 import type { GalleryImage, ProjectLink } from "@/lib/types";
 
 export const inputClass =
@@ -151,7 +152,7 @@ export function ImageField({ value, onChange }: { value: string | null; onChange
       <div className="flex items-center gap-3">
         {value ? (
           <div className="relative size-20 shrink-0 overflow-hidden rounded-lg bg-surface-sunk">
-            <Image src={value} alt="" fill sizes="80px" className="object-cover" />
+            <Image src={value} alt="" fill sizes="80px" unoptimized={!shouldOptimize(value)} className="object-cover" />
           </div>
         ) : (
           <div className="flex size-20 shrink-0 items-center justify-center rounded-lg border border-dashed border-line-strong text-xs text-muted">
@@ -194,7 +195,7 @@ export function GalleryEditor({ items, onChange }: { items: GalleryImage[]; onCh
       {items.map((item, index) => (
         <div key={index} className="flex gap-3 rounded-[var(--radius-input)] border border-line bg-surface p-3">
           <div className="relative size-16 shrink-0 overflow-hidden rounded-lg bg-surface-sunk">
-            {item.url && <Image src={item.url} alt="" fill sizes="64px" className="object-cover" />}
+            {item.url && <Image src={item.url} alt="" fill sizes="64px" unoptimized={!shouldOptimize(item.url)} className="object-cover" />}
           </div>
           <div className="flex flex-1 flex-col gap-2">
             <input
