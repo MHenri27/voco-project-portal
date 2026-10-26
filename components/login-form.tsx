@@ -80,8 +80,6 @@ export function LoginForm({ scope, redirectTo, label, hint }: Props) {
         <p role="alert" className="text-sm text-red-600">
           {error}
         </p>
-      ) : hint ? (
-        <p className="text-sm text-muted">{hint}</p>
       ) : null}
 
       <Button type="submit" variant="accent" size="lg" disabled={pending} className="mt-1 w-full">

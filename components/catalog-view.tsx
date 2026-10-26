@@ -99,7 +99,7 @@ export function CatalogView({ projects }: { projects: Project[] }) {
           <span className="text-accent">tööd.</span>
         </h1>
         <p className="mt-6 max-w-lg text-lg leading-relaxed text-ink-soft">
-          {projects.length} VOCO-s loodud projekti. Vii kursor pealkirjale, et seda näha, või filtreeri allpool.
+          {projects.length} VOCO's loodud projekti. Otsi, filteeri või ava projekt, et selle kohta täpsemalt lugeda.
         </p>
       </header>
 

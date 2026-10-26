@@ -81,7 +81,7 @@ export function Landing({ projectCount }: { projectCount: number }) {
         <div className="lg:col-span-7">
           <h1 className="font-display text-5xl font-bold leading-[1.0] tracking-tight text-ink md:text-7xl">
             <span className="block overflow-hidden pb-1">
-              <span className="ln block">Asjad, mille olen</span>
+              <span className="ln block">Tööd, mis olen</span>
             </span>
             <span className="block overflow-hidden pb-1">
               <span className="ln block">
@@ -90,20 +90,20 @@ export function Landing({ projectCount }: { projectCount: number }) {
                   VOCO
                   <span className="hl absolute inset-x-0 -bottom-1 h-2 origin-left rounded-full bg-accent/20" />
                 </span>
-                -s.
+                's.
               </span>
             </span>
           </h1>
 
           <p className="sub mt-7 max-w-lg text-lg leading-relaxed text-ink-soft">
             Privaatne kogu minu koolitöö projektidest. Logi sisse jagatud parooliga, et
-            sirvida kogu kollektsiooni.
+            sirvida.
           </p>
 
           <div className="meta mt-8 flex items-center gap-3 text-sm text-muted">
             <span className="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-3 py-1.5">
               <span className="size-1.5 rounded-full bg-accent" />
-              {projectCount} {projectCount === 1 ? "projekt" : "projekti"} sees
+              {projectCount} {projectCount === 1 ? "projekt" : "projekti"}
             </span>
           </div>
         </div>
@@ -112,18 +112,18 @@ export function Landing({ projectCount }: { projectCount: number }) {
           <div className="card relative mx-auto w-full max-w-md overflow-hidden rounded-[var(--radius-card)] border border-line bg-bg p-7 shadow-[0_40px_90px_-50px_rgba(37,61,180,0.45)]">
             <div className="absolute inset-x-0 top-0 h-1 bg-accent" />
             <h2 className="font-display text-xl font-semibold text-ink">Sisene kataloogi</h2>
-            <p className="mt-1 mb-6 text-sm text-muted">Ainult kutsutud vaatajatele.</p>
+            <p className="mt-1 mb-6 text-sm text-muted">Kasuta antud parooli.</p>
             <LoginForm
               scope="viewer"
               redirectTo="/catalog"
               label="Parool"
-              hint="Küsi parooli Henrilt, kui sul seda pole."
+              //remved hint parameter bc unnecessary
             />
           </div>
         </div>
       </div>
 
-      <footer className="border-t border-line py-6">
+      <footer className="border-t border-line py-4">
         <Marquee items={["Veeb", "Tarkvara", "Disain", "Süsteemid", "Mängud", "Andmebaasid"]} />
       </footer>
     </main>

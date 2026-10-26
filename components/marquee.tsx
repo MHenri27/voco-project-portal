@@ -5,8 +5,8 @@ function Half({ items }: { items: string[] }) {
   return (
     <div className="flex shrink-0 items-center">
       {items.map((word, i) => (
-        <span key={i} className="flex items-center gap-10 pr-10">
-          <span className="font-display text-2xl font-semibold text-ink/55 md:text-3xl">{word}</span>
+        <span key={i} className="flex items-center gap-10 pr-7">
+          <span className="font-display text-2xl font-semibold text-ink/55 md:text-2xl">{word}</span>
           <span className="size-1.5 rotate-45 bg-accent" />
         </span>
       ))}
