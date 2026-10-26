@@ -6,7 +6,6 @@ import { getSession } from "@/lib/session";
 import { getProjectBySlug, listProjects } from "@/lib/projects";
 import { renderMarkdown } from "@/lib/markdown";
 import { SiteNav } from "@/components/site-nav";
-import { ScrollProgress } from "@/components/scroll-progress";
 import { RevealController } from "@/components/reveal-controller";
 import { ParallaxCover } from "@/components/parallax-cover";
 import { buttonStyles } from "@/components/button";
@@ -35,7 +34,6 @@ export default async function ProjectPage({ params }: Props) {
 
   return (
     <>
-      <ScrollProgress />
       <SiteNav isAdmin={isAdmin} />
       <RevealController />
 
