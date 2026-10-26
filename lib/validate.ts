@@ -84,7 +84,7 @@ export function parseProjectInput(body: unknown): ProjectInput {
     title: cap(title, 200),
     slug: cap(slug, 200),
     summary: cap(asString(raw.summary), 500),
-    description: cap(asString(raw.description), 20000),
+    description: cap(asString(raw.description), 50000),
     category: cap(asString(raw.category), 80) || "Other",
     tags: asStringArray(raw.tags),
     coverImage: cap(asString(raw.coverImage), 2000) || null,

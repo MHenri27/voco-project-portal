@@ -212,3 +212,96 @@ body {
   color: var(--ink);
   font-weight: 600;
 }
+
+.prose h1 {
+  font-family: var(--font-display);
+  font-size: 1.9rem;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  margin-top: 1.6em;
+}
+
+.prose ol {
+  list-style: decimal;
+  padding-left: 1.3em;
+  display: grid;
+  gap: 0.5em;
+}
+
+.prose ol li {
+  padding-left: 0.3em;
+}
+
+.prose ol li::before {
+  content: none;
+}
+
+.prose del {
+  color: var(--muted);
+}
+
+.prose code {
+  font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
+  font-size: 0.9em;
+  background: var(--surface-sunk);
+  padding: 0.15em 0.4em;
+  border-radius: 6px;
+}
+
+.prose pre {
+  background: var(--surface-sunk);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-input);
+  padding: 1em 1.1em;
+  overflow-x: auto;
+  font-size: 0.9em;
+  line-height: 1.6;
+}
+
+.prose pre code {
+  background: none;
+  padding: 0;
+  border-radius: 0;
+}
+
+.prose blockquote {
+  border-left: 3px solid var(--accent);
+  padding: 0.2em 0 0.2em 1.1em;
+  color: var(--ink-soft);
+  font-style: italic;
+}
+
+.prose hr {
+  border: none;
+  border-top: 1px solid var(--line);
+  margin: 2em 0;
+}
+
+.prose .embed-img {
+  margin: 1.6em 0;
+}
+
+.prose .embed-img img,
+.prose > img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-card);
+}
+
+.prose .embed-video {
+  position: relative;
+  margin: 1.6em 0;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  background: var(--surface-sunk);
+}
+
+.prose .embed-video iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
