@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import Link from "next/link";
 import { buttonStyles } from "@/components/button";
 
 // Route-level error boundary. Catches render/data errors in the page tree.
@@ -23,9 +24,9 @@ export default function Error({ error, reset }: { error: Error & { digest?: stri
         <button onClick={reset} className={buttonStyles("accent", "md")}>
           Proovi uuesti
         </button>
-        <a href="/" className={buttonStyles("outline", "md")}>
+        <Link href="/" className={buttonStyles("outline", "md")}>
           Avalehele
-        </a>
+        </Link>
       </div>
     </main>
   );
