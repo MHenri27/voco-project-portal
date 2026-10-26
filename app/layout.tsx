@@ -15,11 +15,17 @@ const sans = Figtree({
 });
 
 // Prefer an explicit site url, then the vercel production url, then local dev.
-const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ??
-  (process.env.VERCEL_PROJECT_PRODUCTION_URL
-    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-    : "http://localhost:3000");
+// Trim + check truthiness so a blank env var falls through instead of blowing
+// up new URL() at build time.
+function resolveSiteUrl(): string {
+  const explicit = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+  if (explicit) return explicit;
+  const vercel = process.env.VERCEL_PROJECT_PRODUCTION_URL?.trim();
+  if (vercel) return `https://${vercel}`;
+  return "http://localhost:3000";
+}
+
+const siteUrl = resolveSiteUrl();
 
 const title = "VOCO Projektid";
 const description = "Privaatne kogu VOCO-s loodud koolitöö projektidest.";
