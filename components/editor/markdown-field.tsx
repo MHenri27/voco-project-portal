@@ -49,6 +49,8 @@ export function MarkdownField({ value, onChange }: { value: string; onChange: (v
     <div className="overflow-hidden rounded-[var(--radius-input)] border border-line-strong bg-surface">
       <div className="flex items-center justify-between border-b border-line px-2 py-1.5">
         <div className="flex items-center gap-0.5">
+          {/* the textarea ref is only read inside these click handlers, not during render */}
+          {/* eslint-disable-next-line react-hooks/refs */}
           {tools.map(({ icon: Icon, label, run }) => (
             <button
               key={label}
