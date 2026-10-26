@@ -203,7 +203,7 @@ body {
 }
 
 .prose a {
-  color: var(--accent);
+  color: var(--accent-press);
   text-decoration: underline;
   text-underline-offset: 3px;
 }

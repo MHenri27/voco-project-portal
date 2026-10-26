@@ -19,9 +19,17 @@ function asString(value: unknown): string {
   return typeof value === "string" ? value.trim() : "";
 }
 
+// Keep stored text within sane bounds so one request can't bloat the table.
+function cap(value: string, max: number): string {
+  return value.length > max ? value.slice(0, max) : value;
+}
+
 function asStringArray(value: unknown): string[] {
   if (!Array.isArray(value)) return [];
-  return value.map((v) => asString(v)).filter(Boolean);
+  return value
+    .map((v) => cap(asString(v), 50))
+    .filter(Boolean)
+    .slice(0, 30);
 }
 
 function asGallery(value: unknown): GalleryImage[] {
@@ -29,12 +37,12 @@ function asGallery(value: unknown): GalleryImage[] {
   const out: GalleryImage[] = [];
   for (const item of value) {
     if (!item || typeof item !== "object") continue;
-    const url = asString((item as Record<string, unknown>).url);
+    const url = cap(asString((item as Record<string, unknown>).url), 2000);
     if (!url) continue;
-    const caption = asString((item as Record<string, unknown>).caption);
+    const caption = cap(asString((item as Record<string, unknown>).caption), 300);
     out.push(caption ? { url, caption } : { url });
   }
-  return out;
+  return out.slice(0, 60);
 }
 
 function asLinks(value: unknown): ProjectLink[] {
@@ -42,12 +50,12 @@ function asLinks(value: unknown): ProjectLink[] {
   const out: ProjectLink[] = [];
   for (const item of value) {
     if (!item || typeof item !== "object") continue;
-    const url = asString((item as Record<string, unknown>).url);
-    const label = asString((item as Record<string, unknown>).label) || url;
+    const url = cap(asString((item as Record<string, unknown>).url), 2000);
+    const label = cap(asString((item as Record<string, unknown>).label), 120) || url;
     if (!url) continue;
     out.push({ label, url });
   }
-  return out;
+  return out.slice(0, 30);
 }
 
 // Validate and normalise an untrusted request body into a ProjectInput.
@@ -73,13 +81,13 @@ export function parseProjectInput(body: unknown): ProjectInput {
   }
 
   return {
-    title,
-    slug,
-    summary: asString(raw.summary),
-    description: asString(raw.description),
-    category: asString(raw.category) || "Other",
+    title: cap(title, 200),
+    slug: cap(slug, 200),
+    summary: cap(asString(raw.summary), 500),
+    description: cap(asString(raw.description), 20000),
+    category: cap(asString(raw.category), 80) || "Other",
     tags: asStringArray(raw.tags),
-    coverImage: asString(raw.coverImage) || null,
+    coverImage: cap(asString(raw.coverImage), 2000) || null,
     gallery: asGallery(raw.gallery),
     links: asLinks(raw.links),
     year,
