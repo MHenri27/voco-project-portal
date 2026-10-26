@@ -17,7 +17,7 @@ export const sampleProjects: Project[] = [
     summary: "A full-stack event ticketing platform built across two study modules.",
     description:
       "Ridfrom started as a database course assignment and grew into my largest project at VOCO. It handles event creation, seat maps, and QR check-in at the door.\n\nThe backend is a REST API over PostgreSQL with row-level checks so an organiser can only ever touch their own events. The front desk app works offline and syncs scans once it reconnects.",
-    category: "Web",
+    category: "Veeb",
     tags: ["Next.js", "PostgreSQL", "REST API", "Auth"],
     coverImage: pic("ridform-cover"),
     gallery: [
@@ -42,7 +42,7 @@ export const sampleProjects: Project[] = [
     summary: "An ESP32 climate controller that keeps a classroom greenhouse in range.",
     description:
       "Built for the embedded systems module. A microcontroller reads temperature, humidity, and soil moisture, then drives a fan and a pump to hold target conditions.\n\nReadings stream to a small dashboard so the class can watch trends over a week and tune the thresholds without reflashing the board.",
-    category: "Hardware",
+    category: "Tarkvara",
     tags: ["ESP32", "C++", "MQTT", "Sensors"],
     coverImage: pic("greenhouse-cover"),
     gallery: [
@@ -64,7 +64,7 @@ export const sampleProjects: Project[] = [
     summary: "A faster, phone-first reader for the school timetable feed.",
     description:
       "The official timetable was hard to read on a phone, so I rebuilt the front end over the same data feed. It remembers your group, highlights the next lesson, and works without a signal once it has loaded.\n\nThis was a UX course project, so most of the work went into the information hierarchy and the empty states.",
-    category: "Design",
+    category: "Disain",
     tags: ["UX", "TypeScript", "PWA", "Accessibility"],
     coverImage: pic("timetable-cover"),
     gallery: [{ url: pic("timetable-week", 1400, 900), caption: "Week view on mobile" }],
@@ -83,7 +83,7 @@ export const sampleProjects: Project[] = [
     summary: "A tiny 2D platformer made to learn game loops and collision.",
     description:
       "A side project from the game programming elective. It has three handmade levels, a sprite editor, and a level format I could hand-edit as plain text.\n\nThe point was not the game but understanding fixed timesteps, tile collision, and keeping input responsive at low frame rates.",
-    category: "Games",
+    category: "Mängud",
     tags: ["Godot", "GDScript", "Game loop"],
     coverImage: pic("pixelforge-cover"),
     gallery: [{ url: pic("pixelforge-level", 1400, 900), caption: "Level two, the cave" }],
@@ -102,7 +102,7 @@ export const sampleProjects: Project[] = [
     summary: "A documented REST API for a small shop's stock, with a seeded demo.",
     description:
       "A backend-only assignment. The API tracks products, batches, and stock movements, and refuses to let stock go negative.\n\nEverything is covered by integration tests and documented with OpenAPI so the front-end students in the group could build against it without asking me questions.",
-    category: "Systems",
+    category: "Süsteemid",
     tags: ["Node.js", "OpenAPI", "Testing", "Docker"],
     coverImage: pic("shelf-cover"),
     gallery: [{ url: pic("shelf-docs", 1400, 900), caption: "The generated API docs" }],
@@ -121,7 +121,7 @@ export const sampleProjects: Project[] = [
     summary: "A small brand system: logo, type scale, and motion guidelines.",
     description:
       "A design module where we invented a studio and gave it a complete identity. I built a logo that works at favicon size, a type scale, and a short motion spec for how things should move.\n\nThe deliverable was a living style sheet rather than a static PDF, so the rules stay close to the code.",
-    category: "Design",
+    category: "Disain",
     tags: ["Branding", "Figma", "Motion", "Type"],
     coverImage: pic("studio-cover"),
     gallery: [
