@@ -6,7 +6,7 @@ export const metadata = { title: "Omaniku ligipääs" };
 
 export default function AdminLoginPage() {
   return (
-    <main className="flex min-h-[100dvh] flex-col items-center justify-center px-5">
+    <main id="main" className="flex min-h-[100dvh] flex-col items-center justify-center px-5">
       <div className="w-full max-w-sm">
         <Link href="/" className="inline-flex items-center gap-1.5 text-sm text-muted transition-colors hover:text-ink">
           <ArrowLeft weight="bold" className="size-4" />

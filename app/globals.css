@@ -7,7 +7,7 @@
   --surface-sunk: #ecf1ff;
   --ink: #0c1326;
   --ink-soft: #3b455c;
-  --muted: #727c92;
+  --muted: #646d84;
   --line: #e8edf8;
   --line-strong: #d4ddf0;
   --accent: #4b6bfb;
@@ -93,6 +93,26 @@ body {
   border-radius: 4px;
 }
 
+/* Keyboard skip link, hidden until focused. */
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 100;
+  transform: translateY(-150%);
+  background: var(--ink);
+  color: var(--bg);
+  padding: 0.6rem 1rem;
+  border-radius: var(--radius-input);
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: transform 0.15s ease;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
 /* Marquee: the track holds two identical halves and shifts by exactly one half. */
 @keyframes marquee {
   to {
@@ -109,6 +129,28 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .marquee-track {
     animation: none;
+  }
+}
+
+/* Loading spinner. */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner {
+  width: 2rem;
+  height: 2rem;
+  border: 3px solid var(--line-strong);
+  border-top-color: var(--accent);
+  border-radius: 999px;
+  animation: spin 0.7s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation-duration: 2s;
   }
 }
 

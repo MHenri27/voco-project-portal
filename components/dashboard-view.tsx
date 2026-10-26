@@ -125,7 +125,7 @@ export function DashboardView({ initialProjects, canWrite }: { initialProjects: 
   }
 
   return (
-    <section className="mx-auto max-w-[1400px] px-5 py-12 md:px-10 md:py-16">
+    <main id="main" className="mx-auto max-w-[1400px] px-5 py-12 md:px-10 md:py-16">
       <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
         <div>
           <h1 className="font-display mt-3 text-4xl font-bold tracking-tight text-ink md:text-5xl">Projektid</h1>
@@ -292,7 +292,7 @@ export function DashboardView({ initialProjects, canWrite }: { initialProjects: 
           })
         )}
       </div>
-    </section>
+    </main>
   );
 }
 

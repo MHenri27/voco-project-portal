@@ -37,7 +37,7 @@ export default async function ProjectPage({ params }: Props) {
       <SiteNav isAdmin={isAdmin} />
       <RevealController />
 
-      <article className="mx-auto max-w-[1000px] px-5 py-12 md:px-10 md:py-16">
+      <main id="main" className="mx-auto max-w-[1000px] px-5 py-12 md:px-10 md:py-16">
         <Link
           href="/catalog"
           className="inline-flex items-center gap-1.5 text-sm text-muted transition-colors hover:text-ink"
@@ -146,7 +146,7 @@ export default async function ProjectPage({ params }: Props) {
             </Link>
           </div>
         </footer>
-      </article>
+      </main>
     </>
   );
 }

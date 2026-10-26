@@ -1,13 +1,13 @@
 "use client";
 
-import { useRef } from "react";
-import Link from "next/link";
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import { ArrowUpRight } from "@phosphor-icons/react";
 import { Brand } from "@/components/brand";
 import { LoginForm } from "@/components/login-form";
 import { Marquee } from "@/components/marquee";
+import { useGSAP } from "@gsap/react";
+import { ArrowUpRight } from "@phosphor-icons/react";
+import gsap from "gsap";
+import Link from "next/link";
+import { useRef } from "react";
 
 gsap.registerPlugin(useGSAP);
 
@@ -43,8 +43,8 @@ export function Landing({ projectCount }: { projectCount: number }) {
         const onMove = contextSafe((event: PointerEvent) => {
           const dx = (event.clientX - window.innerWidth / 2) / (window.innerWidth / 2);
           const dy = (event.clientY - window.innerHeight / 2) / (window.innerHeight / 2);
-          cardX(dx * 10);
-          cardY(dy * 10);
+          cardX(dx * 50);
+          cardY(dy * 50);
         });
         window.addEventListener("pointermove", onMove);
         return () => window.removeEventListener("pointermove", onMove);
@@ -54,7 +54,7 @@ export function Landing({ projectCount }: { projectCount: number }) {
   );
 
   return (
-    <main ref={root} className="relative flex min-h-[100dvh] flex-col overflow-hidden px-5 md:px-10">
+    <main id="main" ref={root} className="relative flex min-h-[100dvh] flex-col overflow-hidden px-5 md:px-10">
       <div
         className="bg-wash pointer-events-none absolute inset-0 -z-10"
         aria-hidden="true"

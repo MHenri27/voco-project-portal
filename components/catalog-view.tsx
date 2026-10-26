@@ -91,7 +91,7 @@ export function CatalogView({ projects }: { projects: Project[] }) {
   }
 
   return (
-    <section className="mx-auto max-w-[1400px] px-5 py-14 md:px-10 md:py-20">
+    <main id="main" className="mx-auto max-w-[1400px] px-5 py-14 md:px-10 md:py-20">
       <header className="max-w-3xl">
         <h1 className="font-display mt-3 text-5xl font-bold leading-[0.95] tracking-tight text-ink md:text-8xl">
           Valitud
@@ -204,6 +204,6 @@ export function CatalogView({ projects }: { projects: Project[] }) {
           </div>
         )}
       </div>
-    </section>
+    </main>
   );
 }
