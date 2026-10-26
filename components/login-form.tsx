@@ -11,10 +11,9 @@ type Props = {
   scope: Role;
   redirectTo: string;
   label: string;
-  hint?: string;
 };
 
-export function LoginForm({ scope, redirectTo, label, hint }: Props) {
+export function LoginForm({ scope, redirectTo, label }: Props) {
   const router = useRouter();
   const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);

@@ -90,7 +90,7 @@ export function Landing({ projectCount }: { projectCount: number }) {
                   VOCO
                   <span className="hl absolute inset-x-0 -bottom-1 h-2 origin-left rounded-full bg-accent/20" />
                 </span>
-                's.
+                &rsquo;s.
               </span>
             </span>
           </h1>
