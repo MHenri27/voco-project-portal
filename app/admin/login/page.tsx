@@ -1,8 +1,8 @@
-import Link from "next/link";
-import { ArrowLeft } from "@phosphor-icons/react/dist/ssr";
 import { LoginForm } from "@/components/login-form";
+import { ArrowLeft } from "@phosphor-icons/react/dist/ssr";
+import Link from "next/link";
 
-export const metadata = { title: "Omaniku ligipääs" };
+export const metadata = { title: "Töölaua ligipääs" };
 
 export default function AdminLoginPage() {
   return (
