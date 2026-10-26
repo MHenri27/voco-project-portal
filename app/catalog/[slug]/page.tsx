@@ -1,10 +1,11 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowLeft, ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
 import { getSession } from "@/lib/session";
 import { getProjectBySlug, listProjects } from "@/lib/projects";
 import { renderMarkdown } from "@/lib/markdown";
+import { shouldOptimize } from "@/lib/images";
 import { SiteNav } from "@/components/site-nav";
 import { RevealController } from "@/components/reveal-controller";
 import { ParallaxCover } from "@/components/parallax-cover";
@@ -38,6 +39,8 @@ export default async function ProjectPage({ params }: Props) {
   const { slug } = await params;
   const [session, project, all] = await Promise.all([getSession(), getProjectBySlug(slug), listProjects()]);
 
+  // Gate at the page level, not only in the proxy.
+  if (!session) redirect("/");
   if (!project) notFound();
   const isAdmin = session?.role === "admin";
   if (!project.published && !isAdmin) notFound();
@@ -121,6 +124,7 @@ export default async function ProjectPage({ params }: Props) {
                     alt={image.caption ?? project.title}
                     fill
                     sizes="(max-width: 768px) 100vw, 480px"
+                    unoptimized={!shouldOptimize(image.url)}
                     className="object-cover"
                   />
                 </div>
