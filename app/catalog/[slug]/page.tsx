@@ -10,12 +10,28 @@ import { RevealController } from "@/components/reveal-controller";
 import { ParallaxCover } from "@/components/parallax-cover";
 import { buttonStyles } from "@/components/button";
 
+import type { Metadata } from "next";
+
 type Props = { params: Promise<{ slug: string }> };
 
-export async function generateMetadata({ params }: Props) {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const project = await getProjectBySlug(slug);
-  return { title: project ? project.title : "Projekti ei leitud" };
+  const [session, project] = await Promise.all([getSession(), getProjectBySlug(slug)]);
+
+  // Don't leak a draft's title to anyone but the admin.
+  if (!project || (!project.published && session?.role !== "admin")) {
+    return { title: "Projekti ei leitud" };
+  }
+
+  return {
+    title: project.title,
+    description: project.summary || undefined,
+    openGraph: {
+      title: project.title,
+      description: project.summary || undefined,
+      images: project.coverImage ? [{ url: project.coverImage }] : undefined,
+    },
+  };
 }
 
 export default async function ProjectPage({ params }: Props) {
