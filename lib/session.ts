@@ -21,7 +21,16 @@ export async function createSession(role: Role) {
 
 export async function destroySession() {
   const store = await cookies();
-  store.delete(SESSION_COOKIE);
+  // Overwrite with an expired cookie that mirrors the attributes we set it with.
+  // A plain delete() omits Secure, and the browser then refuses to clear a
+  // __Host- prefixed cookie, so the user would stay logged in.
+  store.set(SESSION_COOKIE, "", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    path: "/",
+    maxAge: 0,
+  });
 }
 
 // For route handlers that must be admin-only. Returns the session or null.
