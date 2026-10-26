@@ -29,6 +29,8 @@ export function CatalogView({ projects }: { projects: Project[] }) {
     [projects],
   );
 
+  const countFor = (c: string) => (c === "Kõik" ? projects.length : projects.filter((p) => p.category === c).length);
+
   const visible = useMemo(() => {
     const q = query.trim().toLowerCase();
     let list = projects.filter((p) => category === "Kõik" || p.category === category);
@@ -104,19 +106,28 @@ export function CatalogView({ projects }: { projects: Project[] }) {
         </p>
       </header>
 
-      <div className="mt-12 flex flex-col gap-4 border-b border-line pb-4 lg:flex-row lg:items-center lg:justify-between">
-        <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
+      <div className="mt-12 flex flex-col gap-4 border-b border-line pb-5 lg:flex-row lg:items-center lg:justify-between">
+        <div className="flex flex-wrap items-center gap-2">
           {categories.map((c) => (
             <button
               key={c}
               onClick={() => setCategory(c)}
               className={cn(
-                "relative w-24 text-center text-sm transition-colors",
-                category === c ? "font-semibold text-ink" : "text-muted hover:text-ink",
+                "inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-sm transition-colors",
+                category === c
+                  ? "border-accent bg-accent text-on-accent"
+                  : "border-line text-ink-soft hover:border-ink hover:text-ink",
               )}
             >
               {c}
-              {category === c && <span className="absolute -bottom-1 left-0 h-0.5 w-full bg-accent" />}
+              <span
+                className={cn(
+                  "rounded-full px-1.5 text-xs tabular-nums",
+                  category === c ? "bg-on-accent/20 text-on-accent" : "bg-surface-sunk text-muted",
+                )}
+              >
+                {countFor(c)}
+              </span>
             </button>
           ))}
         </div>
@@ -175,10 +186,18 @@ export function CatalogView({ projects }: { projects: Project[] }) {
                   {project.title}
                 </h2>
 
-                <div className="hidden shrink-0 items-center gap-8 md:flex">
-                  <span className="hidden text-sm text-muted lg:block">{project.tags[0]}</span>
-                  <span className="w-24 text-sm text-ink-soft">{project.category}</span>
-                  <span className="w-12 text-sm text-muted">{project.year}</span>
+                <div className="hidden shrink-0 items-center gap-3 md:flex">
+                  <span className="rounded-full bg-accent/10 px-3 py-1 text-xs font-medium text-accent-press">
+                    {project.category}
+                  </span>
+                  <div className="hidden items-center gap-1.5 lg:flex">
+                    {project.tags.slice(0, 2).map((tag) => (
+                      <span key={tag} className="rounded-full border border-line px-2.5 py-0.5 text-xs text-ink-soft">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  <span className="w-12 text-right text-sm text-muted tabular-nums">{project.year}</span>
                 </div>
 
                 <ArrowUpRight
