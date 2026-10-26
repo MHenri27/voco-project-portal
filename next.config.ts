@@ -4,9 +4,13 @@ import type { NextConfig } from "next";
 // google domains here. Scripts need unsafe-inline because Next injects its own
 // inline bootstrap/hydration scripts and we're not wiring up nonces. Images are
 // left open to https since the owner can paste in any cover/gallery url.
+// Dev also needs unsafe-eval because React uses eval for debugging; prod never does.
+const isDev = process.env.NODE_ENV !== "production";
+const scriptSrc = isDev ? "script-src 'self' 'unsafe-inline' 'unsafe-eval'" : "script-src 'self' 'unsafe-inline'";
+
 const csp = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline'",
+  scriptSrc,
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob: https:",
   "font-src 'self'",
