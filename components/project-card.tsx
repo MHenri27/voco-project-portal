@@ -7,9 +7,13 @@ import { Tilt } from "@/components/tilt";
 import { shouldOptimize } from "@/lib/images";
 import type { Project } from "@/lib/types";
 
-export function ProjectCard({ project }: { project: Project }) {
+export function ProjectCard({ project, animate = true }: { project: Project; animate?: boolean }) {
   return (
-    <Link href={`/catalog/${project.slug}`} className="cat-card group block [perspective:1000px]" data-animate>
+    <Link
+      href={`/catalog/${project.slug}`}
+      className="cat-card group block [perspective:1000px]"
+      {...(animate ? { "data-animate": true } : {})}
+    >
       <Tilt>
         <div className="relative aspect-[4/3] overflow-hidden rounded-[var(--radius-card)] bg-surface-sunk">
           {project.coverImage ? (

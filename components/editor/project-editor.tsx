@@ -8,6 +8,7 @@ import { Field, Toggle, TagInput, ImageField, GalleryEditor, LinkEditor, inputCl
 import { MarkdownField } from "@/components/editor/markdown-field";
 import { ProjectCard } from "@/components/project-card";
 import { Button, buttonStyles } from "@/components/button";
+import { renderMarkdown } from "@/lib/markdown";
 import { slugify } from "@/lib/validate";
 import { cn } from "@/lib/cn";
 import type { GalleryImage, Project, ProjectInput, ProjectLink } from "@/lib/types";
@@ -214,11 +215,22 @@ export function ProjectEditor({ project }: { project?: Project }) {
           <p className="kicker">Reaalajas eelvaade</p>
           <div className="mt-4 rounded-[var(--radius-card)] border border-line bg-surface p-5">
             <div className="pointer-events-none">
-              <ProjectCard project={previewProject} />
+              <ProjectCard project={previewProject} animate={false} />
             </div>
           </div>
+
+          {form.description.trim() && (
+            <div className="mt-4 rounded-[var(--radius-card)] border border-line bg-surface p-5">
+              <p className="kicker mb-3">Kirjeldus</p>
+              <div
+                className="prose max-w-none text-sm"
+                dangerouslySetInnerHTML={{ __html: renderMarkdown(form.description) }}
+              />
+            </div>
+          )}
+
           {!project && (
-            <Link href="/admin" className={cn(buttonStyles("outline", "sm"), "mt-4")}>
+            <Link href="/admin" className={cn(buttonStyles("outline", "sm"), "mt-4 w-full justify-center")}>
               Tühista
             </Link>
           )}
