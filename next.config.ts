@@ -14,10 +14,12 @@ const csp = [
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob: https:",
   "font-src 'self'",
-  "connect-src 'self'",
+  "connect-src 'self' https://blob.vercel-storage.com https://*.public.blob.vercel-storage.com",
   "object-src 'none'",
   "base-uri 'self'",
   "form-action 'self'",
+  // Descriptions can embed youtube videos, so allow its (cookieless) player iframe.
+  "frame-src https://www.youtube-nocookie.com https://www.youtube.com",
   "frame-ancestors 'none'",
   "upgrade-insecure-requests",
 ].join("; ");
