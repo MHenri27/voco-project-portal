@@ -124,7 +124,7 @@ export function Landing({ projectCount }: { projectCount: number }) {
       </div>
 
       <footer className="border-t border-line py-6">
-        <Marquee items={["Veeb", "Riistvara", "Disain", "Süsteemid", "Mängud", "Andmebaasid"]} />
+        <Marquee items={["Veeb", "Tarkvara", "Disain", "Süsteemid", "Mängud", "Andmebaasid"]} />
       </footer>
     </main>
   );
