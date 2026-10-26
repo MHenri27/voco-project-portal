@@ -1,8 +1,8 @@
 "use client";
 
-import { useRef, useState, type ReactNode } from "react";
+import { useRef, useState, type DragEvent, type ReactNode } from "react";
 import Image from "next/image";
-import { Plus, Trash, UploadSimple, X } from "@phosphor-icons/react";
+import { DotsSixVertical, Plus, Trash, UploadSimple, X } from "@phosphor-icons/react";
 import { uploadImage } from "@/components/editor/upload";
 import { cn } from "@/lib/cn";
 import { shouldOptimize } from "@/lib/images";
@@ -10,6 +10,58 @@ import type { GalleryImage, ProjectLink } from "@/lib/types";
 
 export const inputClass =
   "w-full rounded-[var(--radius-input)] border border-line-strong bg-bg px-4 py-3 text-ink outline-none transition-colors placeholder:text-muted/60 focus:border-accent";
+
+function reorder<T>(list: T[], from: number, to: number): T[] {
+  const next = [...list];
+  const [moved] = next.splice(from, 1);
+  next.splice(to, 0, moved);
+  return next;
+}
+
+// Shared native drag-to-reorder wiring for the list editors below.
+function useDragReorder<T>(items: T[], onChange: (items: T[]) => void) {
+  const [dragIndex, setDragIndex] = useState<number | null>(null);
+  const [overIndex, setOverIndex] = useState<number | null>(null);
+
+  const handleProps = (index: number) => ({
+    draggable: true,
+    onDragStart: () => setDragIndex(index),
+    onDragEnd: () => {
+      setDragIndex(null);
+      setOverIndex(null);
+    },
+  });
+
+  const rowProps = (index: number) => ({
+    onDragOver: (e: DragEvent) => {
+      if (dragIndex === null) return;
+      e.preventDefault();
+      if (overIndex !== index) setOverIndex(index);
+    },
+    onDrop: (e: DragEvent) => {
+      e.preventDefault();
+      if (dragIndex !== null && dragIndex !== index) onChange(reorder(items, dragIndex, index));
+      setDragIndex(null);
+      setOverIndex(null);
+    },
+  });
+
+  return { dragIndex, overIndex, handleProps, rowProps };
+}
+
+function DragHandle({ handleProps, label }: { handleProps: Record<string, unknown>; label: string }) {
+  return (
+    <button
+      type="button"
+      {...handleProps}
+      aria-label={label}
+      title="Lohista ümber järjestamiseks"
+      className="flex size-7 shrink-0 cursor-grab items-center justify-center self-center rounded text-muted hover:bg-surface-sunk hover:text-ink active:cursor-grabbing"
+    >
+      <DotsSixVertical weight="bold" className="size-5" />
+    </button>
+  );
+}
 
 export function Field({
   label,
@@ -185,6 +237,7 @@ export function ImageField({ value, onChange }: { value: string | null; onChange
 
 export function GalleryEditor({ items, onChange }: { items: GalleryImage[]; onChange: (items: GalleryImage[]) => void }) {
   const [error, setError] = useState<string | null>(null);
+  const { dragIndex, overIndex, handleProps, rowProps } = useDragReorder(items, onChange);
 
   function update(index: number, patch: Partial<GalleryImage>) {
     onChange(items.map((item, i) => (i === index ? { ...item, ...patch } : item)));
@@ -193,7 +246,16 @@ export function GalleryEditor({ items, onChange }: { items: GalleryImage[]; onCh
   return (
     <div className="flex flex-col gap-3">
       {items.map((item, index) => (
-        <div key={index} className="flex gap-3 rounded-[var(--radius-input)] border border-line bg-surface p-3">
+        <div
+          key={index}
+          {...rowProps(index)}
+          className={cn(
+            "flex gap-3 rounded-[var(--radius-input)] border border-line bg-surface p-3 transition-colors",
+            dragIndex === index && "opacity-40",
+            overIndex === index && dragIndex !== index && "border-accent",
+          )}
+        >
+          <DragHandle handleProps={handleProps(index)} label={`Lohista pilti ${index + 1}`} />
           <div className="relative size-16 shrink-0 overflow-hidden rounded-lg bg-surface-sunk">
             {item.url && <Image src={item.url} alt="" fill sizes="64px" unoptimized={!shouldOptimize(item.url)} className="object-cover" />}
           </div>
@@ -237,6 +299,8 @@ export function GalleryEditor({ items, onChange }: { items: GalleryImage[]; onCh
 }
 
 export function LinkEditor({ items, onChange }: { items: ProjectLink[]; onChange: (items: ProjectLink[]) => void }) {
+  const { dragIndex, overIndex, handleProps, rowProps } = useDragReorder(items, onChange);
+
   function update(index: number, patch: Partial<ProjectLink>) {
     onChange(items.map((item, i) => (i === index ? { ...item, ...patch } : item)));
   }
@@ -244,7 +308,16 @@ export function LinkEditor({ items, onChange }: { items: ProjectLink[]; onChange
   return (
     <div className="flex flex-col gap-3">
       {items.map((item, index) => (
-        <div key={index} className="flex items-center gap-2">
+        <div
+          key={index}
+          {...rowProps(index)}
+          className={cn(
+            "flex items-center gap-2 rounded-[var(--radius-input)] transition-colors",
+            dragIndex === index && "opacity-40",
+            overIndex === index && dragIndex !== index && "ring-1 ring-accent",
+          )}
+        >
+          <DragHandle handleProps={handleProps(index)} label={`Lohista linki ${index + 1}`} />
           <input
             value={item.label}
             onChange={(e) => update(index, { label: e.target.value })}

@@ -4,8 +4,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import {
-  CaretUp,
-  CaretDown,
+  DotsSixVertical,
   Eye,
   EyeSlash,
   MagnifyingGlass,
@@ -35,6 +34,8 @@ export function DashboardView({ initialProjects, canWrite }: { initialProjects: 
   const [status, setStatus] = useState<Status>("all");
   const [message, setMessage] = useState<{ type: "error" | "success"; text: string } | null>(null);
   const [busyId, setBusyId] = useState<string | null>(null);
+  const [dragIndex, setDragIndex] = useState<number | null>(null);
+  const [overIndex, setOverIndex] = useState<number | null>(null);
 
   const stats = useMemo(
     () => ({
@@ -82,12 +83,7 @@ export function DashboardView({ initialProjects, canWrite }: { initialProjects: 
     }
   }
 
-  async function move(index: number, dir: -1 | 1) {
-    const target = index + dir;
-    if (target < 0 || target >= projects.length) return;
-    const previous = projects;
-    const next = [...projects];
-    [next[index], next[target]] = [next[target], next[index]];
+  async function commitOrder(next: Project[], previous: Project[]) {
     setProjects(next);
     setMessage(null);
     try {
@@ -104,6 +100,19 @@ export function DashboardView({ initialProjects, canWrite }: { initialProjects: 
       setProjects(previous);
       setMessage({ type: "error", text: err instanceof Error ? err.message : "Ümberjärjestamine ebaõnnestus." });
     }
+  }
+
+  // Drag a row onto another to splice it into that position, then persist.
+  function onDrop(targetIndex: number) {
+    const from = dragIndex;
+    setDragIndex(null);
+    setOverIndex(null);
+    if (from === null || from === targetIndex) return;
+    const previous = projects;
+    const next = [...projects];
+    const [moved] = next.splice(from, 1);
+    next.splice(targetIndex, 0, moved);
+    commitOrder(next, previous);
   }
 
   async function remove(project: Project) {
@@ -189,8 +198,12 @@ export function DashboardView({ initialProjects, canWrite }: { initialProjects: 
         </p>
       )}
 
-      {!manualOrder && canWrite && (
-        <p className="mt-5 text-xs text-muted">Tühjenda otsing ja filter, et projekte ümber järjestada.</p>
+      {canWrite && (
+        <p className="mt-5 text-xs text-muted">
+          {manualOrder
+            ? "Lohista projekte käepidemest, et neid ümber järjestada."
+            : "Tühjenda otsing ja filter, et projekte lohistades ümber järjestada."}
+        </p>
       )}
 
       <div className="mt-6 divide-y divide-line border-y border-line">
@@ -200,27 +213,40 @@ export function DashboardView({ initialProjects, canWrite }: { initialProjects: 
           visible.map((project) => {
             const index = projects.findIndex((p) => p.id === project.id);
             const busy = busyId === project.id;
+            const draggable = manualOrder && canWrite;
             return (
-              <div key={project.id} className="flex items-center gap-4 py-4">
-                {manualOrder && canWrite && (
-                  <div className="flex flex-col">
-                    <button
-                      onClick={() => move(index, -1)}
-                      disabled={index === 0}
-                      aria-label="Liiguta üles"
-                      className="flex size-6 items-center justify-center rounded text-muted hover:bg-surface-sunk hover:text-ink disabled:opacity-30"
-                    >
-                      <CaretUp weight="bold" className="size-4" />
-                    </button>
-                    <button
-                      onClick={() => move(index, 1)}
-                      disabled={index === projects.length - 1}
-                      aria-label="Liiguta alla"
-                      className="flex size-6 items-center justify-center rounded text-muted hover:bg-surface-sunk hover:text-ink disabled:opacity-30"
-                    >
-                      <CaretDown weight="bold" className="size-4" />
-                    </button>
-                  </div>
+              <div
+                key={project.id}
+                onDragOver={(e) => {
+                  if (!draggable || dragIndex === null) return;
+                  e.preventDefault();
+                  if (overIndex !== index) setOverIndex(index);
+                }}
+                onDrop={(e) => {
+                  if (!draggable) return;
+                  e.preventDefault();
+                  onDrop(index);
+                }}
+                className={cn(
+                  "flex items-center gap-4 py-4 transition-colors",
+                  dragIndex === index && "opacity-40",
+                  overIndex === index && dragIndex !== index && "bg-accent/5",
+                )}
+              >
+                {draggable && (
+                  <button
+                    draggable
+                    onDragStart={() => setDragIndex(index)}
+                    onDragEnd={() => {
+                      setDragIndex(null);
+                      setOverIndex(null);
+                    }}
+                    aria-label={`Lohista ümberjärjestamiseks: ${project.title}`}
+                    title="Lohista ümber järjestamiseks"
+                    className="flex size-7 shrink-0 cursor-grab items-center justify-center rounded text-muted hover:bg-surface-sunk hover:text-ink active:cursor-grabbing"
+                  >
+                    <DotsSixVertical weight="bold" className="size-5" />
+                  </button>
                 )}
 
                 <div className="relative size-14 shrink-0 overflow-hidden rounded-lg bg-surface-sunk">
