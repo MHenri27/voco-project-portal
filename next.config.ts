@@ -14,7 +14,8 @@ const csp = [
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob: https:",
   "font-src 'self'",
-  "connect-src 'self' https://blob.vercel-storage.com https://*.public.blob.vercel-storage.com",
+  // Client-direct blob uploads talk to vercel.com/api/blob and then the storage host.
+  "connect-src 'self' https://vercel.com https://blob.vercel-storage.com https://*.public.blob.vercel-storage.com",
   "object-src 'none'",
   "base-uri 'self'",
   "form-action 'self'",
