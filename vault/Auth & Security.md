@@ -29,6 +29,22 @@ Every API route calls `requireAdmin()` again, so a direct request cannot skip th
 Drafts are filtered out for anyone who is not an admin, in the [[Data Model|data layer]]
 and again on the detail page.
 
+Logging out clears the cookie with its full attributes (a plain delete would not clear a
+`__Host-` cookie), so the session really ends.
+
+## Hardening
+
+Beyond the gate, the app ships a few production defences:
+
+- A strict **Content-Security-Policy** and the usual security headers (HSTS, `nosniff`,
+  `X-Frame-Options`, a tight `Permissions-Policy`) set in `next.config.ts`.
+- **Rate-limited** logins and a same-origin check on `/api/auth/login`.
+- The session cookie uses the `__Host-` prefix in production and the JWT is verified with a
+  pinned algorithm.
+- Uploads go **straight from the browser to Vercel Blob**; the server only hands out a
+  scoped, admin-only token and never proxies the file. Images are capped and type-checked.
+- Every API route re-validates its input and re-checks the session.
+
 ## What this is not
 
 A single shared viewer password can be passed around. That is acceptable here; per-person

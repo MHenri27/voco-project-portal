@@ -19,6 +19,13 @@ Tokens live in `app/globals.css`.
 - No monospace in the UI. The old mono eyebrows are replaced by the `.kicker` label
   (sans, small, tracked, used sparingly).
 
+## Catalog accents
+
+Categories and tags are shown as pills: the category filter uses accent-filled chips with
+per-category counts, and each project row carries a soft accent category pill and bordered
+tag chips. Rendered Markdown (`.prose`) styles headings, quotes, code, images, and the
+responsive 16:9 YouTube embeds.
+
 ## Motion
 
 GSAP drives everything; CSS handles micro-transitions. See [[Components]] for each piece.

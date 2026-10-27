@@ -1,7 +1,7 @@
 # VOCO Project Portal — Documentation
 
-This is the living documentation for the portal. Open the `vault/` folder as an
-Obsidian vault to get the graph view and the [[System Map]] canvas.
+This is the living documentation for the portal, live at `projektid.mhenri.me`. Open the
+`vault/` folder as an Obsidian vault to get the graph view and the [[System Map]] canvas.
 
 ## Start here
 

@@ -6,7 +6,7 @@ One table: `projects`. Defined in `lib/db/schema.ts`, typed in `lib/types.ts`.
 |---|---|
 | `id` | uuid, generated |
 | `slug` | unique, used in the URL |
-| `title`, `summary`, `description` | text; description supports Markdown |
+| `title`, `summary`, `description` | text; description is rich Markdown (images, embeds) |
 | `category` | free text, e.g. Web, Hardware, Design |
 | `tags` | string array (jsonb) |
 | `coverImage` | url or null |

@@ -27,5 +27,7 @@ Gating is done in `proxy.ts`. See [[Auth & Security]].
 
 The catalog pages read through the [[Data Model|data layer]] directly; the API routes
 exist for the dashboard. Every write route validates its body and re-checks the session.
+`/api/upload` doesn't receive files — it hands the browser a scoped, admin-only token so it
+can upload straight to Vercel Blob. See [[Auth & Security]].
 
 Related: [[Architecture]], [[Components]], [[Design System]].
